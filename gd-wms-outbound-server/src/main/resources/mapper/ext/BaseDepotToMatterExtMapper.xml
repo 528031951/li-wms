@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.ext.BaseDepotToMatterExtMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatter">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="DEPOT_ID" jdbcType="VARCHAR" property="depotId" />
+    <result column="MATTER_ID" jdbcType="VARCHAR" property="matterId" />
+    <result column="ALL_NUMBER" jdbcType="NUMERIC" property="allNumber" />
+    <result column="IN_USE_NUMBER" jdbcType="NUMERIC" property="inUseNumber" />
+    <result column="OUT_USE_NUMBER" jdbcType="NUMERIC" property="outUseNumber" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, DEPOT_ID, MATTER_ID, ALL_NUMBER, IN_USE_NUMBER, OUT_USE_NUMBER
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatterExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from BASE_DEPOT_TO_MATTER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BASE_DEPOT_TO_MATTER
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from BASE_DEPOT_TO_MATTER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+
+  <update id="updateUseNumberFB" parameterType="java.util.List">
+UPDATE BASE_DEPOT_TO_MATTER SET IN_USE_NUMBER = (CASE
+<foreach collection="list" index="index" item="item" open=" " separator=" " close=" ">
+     WHEN DEPOT_ID=#{item.depotId} and MATTER_ID=#{item.matterNo} THEN (#{item.inUseNumber} + #{item.addUseNumber})
+     </foreach>
+     END),
+     OUT_USE_NUMBER = (CASE
+     <foreach collection="list" index="index" item="item" open=" " separator=" " close=" ">
+     WHEN DEPOT_ID=#{item.depotId} and MATTER_ID=#{item.matterNo}  THEN
+     (#{item.outUseNumber} - #{item.addUseNumber})
+     </foreach>
+     END)
+     where DEPOT_ID in
+     <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+     #{item.depotId}
+     </foreach>
+    and MATTER_ID in
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+      #{item.matterNo}
+    </foreach>
+  </update>
+
+  <update id="updateAllNumber" parameterType="java.util.List">
+    UPDATE BASE_DEPOT_TO_MATTER SET ALL_NUMBER = (CASE
+    <foreach collection="list" index="index" item="item" open=" " separator=" " close=" ">
+      WHEN DEPOT_ID=#{item.depotId} and MATTER_ID=#{item.matterNo} THEN (#{item.allNumber} - #{item.outNumber})
+    </foreach>
+    END),
+    IN_USE_NUMBER = (CASE
+    <foreach collection="list" index="index" item="item" open=" " separator=" " close=" ">
+      WHEN DEPOT_ID=#{item.depotId} and MATTER_ID=#{item.matterNo}  THEN
+      (#{item.inUseNumber} + #{item.addUseNumber} - #{item.outNumber})
+    </foreach>
+    END)
+    where DEPOT_ID in
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+      #{item.depotId}
+    </foreach>
+    and MATTER_ID in
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+      #{item.matterNo}
+    </foreach>
+  </update>
+
+  <update id="updateMatterInfo" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+    UPDATE BASE_DEPOT_TO_MATTER SET ALL_NUMBER = (ALL_NUMBER-#{outNumber}),IN_USE_NUMBER=(IN_USE_NUMBER-#{outNumber}) where DEPOT_ID=#{depotId} and MATTER_ID=#{matterNo}
+  </update>
+  <update id="updateMatterInfoSL" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+merge INTO BASE_DEPOT_TO_MATTER T1 USING ( SELECT #{depotId} AS DEPOT_ID, #{matterNo} AS MATTER_ID FROM dual ) T2 ON (T1.DEPOT_ID = T2.DEPOT_ID and T1.MATTER_ID=T2.MATTER_ID)
+WHEN MATCHED THEN
+UPDATE
+   SET ALL_NUMBER = (ALL_NUMBER + #{outNumber}),OUT_USE_NUMBER=(OUT_USE_NUMBER+ #{outNumber})
+   WHEN NOT MATCHED THEN
+   INSERT ( DEPOT_ID, MATTER_ID,ALL_NUMBER,OUT_USE_NUMBER )
+VALUES
+   ( #{depotId}, #{matterNo},#{outNumber},#{outNumber})
+  </update>
+
+  <update id="updateCaseInfoSL" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+    UPDATE BASE_DEPOT_TO_CASE SET REAL_NUMBER = (REAL_NUMBER + #{outNumber}) where DEPOT_ID='zck' and MATTER_ID=#{matterNo}
+  </update>
+
+  <update id="updateCaseInfo" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+    UPDATE BASE_DEPOT_TO_CASE SET REAL_NUMBER = (REAL_NUMBER-#{outNumber}),IN_USE_NUMBER=(IN_USE_NUMBER-#{outNumber}) where DEPOT_ID=#{depotId} and MATTER_ID=#{matterNo}
+  </update>
+
+  <update id="updateProductInfo" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+    UPDATE BASE_DEPOT_TO_PRODUCT SET TRANSFER_NUMBER = (TRANSFER_NUMBER+#{outNumber}),CENTRAL_STORAGE_CODE=#{targetDepot} where DEPOT_ID=#{depotId} and MATTER_ID=#{matterNo}
+  </update>
+
+
+<update id="updateUseNumber" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+  UPDATE BASE_DEPOT_TO_MATTER SET IN_USE_NUMBER = (CASE
+  <foreach collection="list" index="index" item="item" open=" " separator=" " close=" ">
+    WHEN DEPOT_ID=#{item.depotId} and MATTER_ID=#{item.matterNo} THEN (#{item.inUseNumber} + #{item.addUseNumber})
+  </foreach>
+  END),
+  OUT_USE_NUMBER = (CASE
+  <foreach collection="list" index="index" item="item" open=" " separator=" " close=" ">
+    WHEN DEPOT_ID=#{item.depotId} and MATTER_ID=#{item.matterNo}  THEN
+    (#{item.outUseNumber} - #{item.addUseNumber})
+  </foreach>
+  END)
+  where DEPOT_ID in
+  <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+    #{item.depotId}
+  </foreach>
+  and MATTER_ID in
+  <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+    #{item.matterNo}
+  </foreach>
+</update>
+
+
+
+  <select id="findMatterByPosition" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatter">
+    select  a.ID,DEPOT_ID,MATTER_ID,ALL_NUMBER,IN_USE_NUMBER,OUT_USE_NUMBER,MATTER_NAME,MATTER_SPEC
+    from BASE_DEPOT_TO_MATTER a  left join BASE_MATTER_INFO b on a.MATTER_ID=b.ID
+    where DEPOT_ID=#{depotId}
+  </select>
+
+  <select id="findPositionByBill" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatter">
+    select  * from BASE_DEPOT_TO_MATTER
+    where MATTER_NO=#{matterNo}
+  </select>
+
+  <select id="scanBoxOrPackage" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.BoxInfo">
+    select * from BASE_DEPOT_TO_CASE
+    where CASE_NO=#{boxID}
+  </select>
+
+  <select id="scanBoxOrPackageProduct" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.BoxInfoProduct">
+    select * from BASE_DEPOT_TO_PRODUCT
+    where CASE_NO=#{boxID}
+  </select>
+
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatterExample">
+    delete from BASE_DEPOT_TO_MATTER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatter">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      Oracle
+    </selectKey>
+    insert into BASE_DEPOT_TO_MATTER (DEPOT_ID, MATTER_ID, ALL_NUMBER, 
+      IN_USE_NUMBER, OUT_USE_NUMBER)
+    values (#{depotId,jdbcType=VARCHAR}, #{matterId,jdbcType=VARCHAR}, #{allNumber,jdbcType=NUMERIC}, 
+      #{inUseNumber,jdbcType=NUMERIC}, #{outUseNumber,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatter">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      Oracle
+    </selectKey>
+    insert into BASE_DEPOT_TO_MATTER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="depotId != null">
+        DEPOT_ID,
+      </if>
+      <if test="matterId != null">
+        MATTER_ID,
+      </if>
+      <if test="allNumber != null">
+        ALL_NUMBER,
+      </if>
+      <if test="inUseNumber != null">
+        IN_USE_NUMBER,
+      </if>
+      <if test="outUseNumber != null">
+        OUT_USE_NUMBER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="depotId != null">
+        #{depotId,jdbcType=VARCHAR},
+      </if>
+      <if test="matterId != null">
+        #{matterId,jdbcType=VARCHAR},
+      </if>
+      <if test="allNumber != null">
+        #{allNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="inUseNumber != null">
+        #{inUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="outUseNumber != null">
+        #{outUseNumber,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatterExample" resultType="java.lang.Long">
+    select count(*) from BASE_DEPOT_TO_MATTER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update BASE_DEPOT_TO_MATTER
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.depotId != null">
+        DEPOT_ID = #{record.depotId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterId != null">
+        MATTER_ID = #{record.matterId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allNumber != null">
+        ALL_NUMBER = #{record.allNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.inUseNumber != null">
+        IN_USE_NUMBER = #{record.inUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.outUseNumber != null">
+        OUT_USE_NUMBER = #{record.outUseNumber,jdbcType=NUMERIC},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update BASE_DEPOT_TO_MATTER
+    set ID = #{record.id,jdbcType=VARCHAR},
+      DEPOT_ID = #{record.depotId,jdbcType=VARCHAR},
+      MATTER_ID = #{record.matterId,jdbcType=VARCHAR},
+      ALL_NUMBER = #{record.allNumber,jdbcType=NUMERIC},
+      IN_USE_NUMBER = #{record.inUseNumber,jdbcType=NUMERIC},
+      OUT_USE_NUMBER = #{record.outUseNumber,jdbcType=NUMERIC}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatter">
+    update BASE_DEPOT_TO_MATTER
+    <set>
+      <if test="depotId != null">
+        DEPOT_ID = #{depotId,jdbcType=VARCHAR},
+      </if>
+      <if test="matterId != null">
+        MATTER_ID = #{matterId,jdbcType=VARCHAR},
+      </if>
+      <if test="allNumber != null">
+        ALL_NUMBER = #{allNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="inUseNumber != null">
+        IN_USE_NUMBER = #{inUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="outUseNumber != null">
+        OUT_USE_NUMBER = #{outUseNumber,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatter">
+    update BASE_DEPOT_TO_MATTER
+    set DEPOT_ID = #{depotId,jdbcType=VARCHAR},
+      MATTER_ID = #{matterId,jdbcType=VARCHAR},
+      ALL_NUMBER = #{allNumber,jdbcType=NUMERIC},
+      IN_USE_NUMBER = #{inUseNumber,jdbcType=NUMERIC},
+      OUT_USE_NUMBER = #{outUseNumber,jdbcType=NUMERIC}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

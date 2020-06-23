@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.ext.OutBoundFillBillExtMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="FILL_BILL_ID" jdbcType="VARCHAR" property="fillBillId" />
+    <result column="WORK_LINE" jdbcType="VARCHAR" property="workLine" />
+    <result column="MATTER_NO" jdbcType="VARCHAR" property="matterNo" />
+    <result column="MATTER_NUMBER" jdbcType="NUMERIC" property="matterNumber" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="TASK_LEADER_ID" jdbcType="VARCHAR" property="taskLeaderId" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="MATTER_SPEC" jdbcType="VARCHAR" property="matterSpec" />
+    <result column="MATTER_NAME" jdbcType="VARCHAR" property="matterName" />
+    <result column="BILL_DATE" jdbcType="TIMESTAMP" property="billDate" />
+  </resultMap>
+
+  <resultMap id="ChildResultMap" type="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="FILL_BILL_ID" jdbcType="VARCHAR" property="fillBillId" />
+    <result column="WORK_LINE" jdbcType="VARCHAR" property="workLine" />
+    <result column="MATTER_NO" jdbcType="VARCHAR" property="matterNo" />
+    <result column="MATTER_NUMBER" jdbcType="NUMERIC" property="matterNumber" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="TASK_LEADER_ID" jdbcType="VARCHAR" property="taskLeaderId" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="MATTER_SPEC" jdbcType="VARCHAR" property="matterSpec" />
+    <result column="MATTER_NAME" jdbcType="VARCHAR" property="matterName" />
+    <result column="BILL_DATE" jdbcType="TIMESTAMP" property="billDate" />
+    <collection property="children"  ofType="com.bpm.gd.wms.outbound.server.domain.MatterInfo" javaType="java.util.List">
+      <id column="CHILD_MATTER_ID" jdbcType="VARCHAR" property="matterId" />
+      <result column="CHILD_MATTER_NAME" jdbcType="VARCHAR" property="matterName" />
+      <result column="CHILD_MATTER_SPEC" jdbcType="VARCHAR" property="matterSpec" />
+      <result column="CHILD_MATTER_NUMBER" jdbcType="NUMERIC" property="matterNumber" />
+    </collection>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, FILL_BILL_ID, WORK_LINE, MATTER_NO, MATTER_NUMBER, STATUS, TASK_LEADER_ID, TASK_STATUS, 
+    MATTER_SPEC, MATTER_NAME, BILL_DATE
+  </sql>
+
+  <update id="dispatchFillBill" parameterType="java.util.List" >
+    update OUT_BOUND_FILL_BILL
+    set TASK_STATUS='已分配',
+    TASK_LEADER_ID = (CASE
+    <foreach collection="list" index="index" item="item" open=" " separator=" " close=" ">
+      WHEN fill_bill_id=#{item}
+      THEN (
+      select USER_ID  from OUT_BOUND_FILL_BILL a left join OUT_BOUND_TASK_ROLE b on a.WORK_LINE=b.WORK_LINE
+      where a.fill_bill_id=#{item}  and b.WORK_LINE=(select DISTINCT WORK_LINE from OUT_BOUND_FILL_BILL where fill_bill_id=#{item} )
+      )
+    </foreach>
+    END)
+    where fill_bill_id in
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+<!--  <update id="dispatchFillBill" parameterType="java.util.List" >-->
+<!--    update  OUT_BOUND_FILL_BILL-->
+<!--    set TASK_STATUS='已分配',-->
+<!--    TASK_LEADER_ID='chenyiwen'-->
+<!--    where fill_bill_id in-->
+<!--    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">-->
+<!--      #{item}-->
+<!--    </foreach>-->
+<!--  </update>-->
+  <select id="findTaskByUser" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+    select  distinct  FILL_BILL_ID, WORK_LINE,BILL_DATE from OUT_BOUND_FILL_BILL
+    where TASK_LEADER_ID=#{user} and TASK_STATUS not in ('已完成')
+  </select>
+  <select id="findMatterByBill" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+    select * from OUT_BOUND_FILL_BILL
+     where TASK_LEADER_ID=#{user} and TASK_STATUS not in ('已完成') and FILL_BILL_ID=#{fillBillId}
+  </select>
+
+  <select id="findFillBIllMatter" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+    select * from OUT_BOUND_FILL_BILL
+     where  FILL_BILL_ID=#{fillBillId}
+  </select>
+
+
+
+<!--  <select id="findPositionByBill" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">-->
+<!--select h.counts ONE_AREA_NUMBER,g.DEPOT_ID,g.ALL_NUMBER,g.IN_USE_NUMBER,g.OUT_USE_NUMBER,g.FILL_BILL_ID, g.WORK_LINE, g.MATTER_NO,g.MATTER_NUMBER, g.STATUS, g.TASK_LEADER_ID,g.TASK_STATUS, g.MATTER_SPEC, g.MATTER_NAME,g.BILL_DATE from-->
+<!--(-->
+<!-- select DEPOT_ID, ALL_NUMBER,-->
+<!--      IN_USE_NUMBER, OUT_USE_NUMBER,a.FILL_BILL_ID, a.WORK_LINE, a.MATTER_NO,-->
+<!--      a.MATTER_NUMBER, a.STATUS, a.TASK_LEADER_ID,-->
+<!--      a.TASK_STATUS, a.MATTER_SPEC, a.MATTER_NAME,-->
+<!--      a.BILL_DATE from OUT_BOUND_FILL_BILL a-->
+
+<!--left join-->
+<!--(SELECT ID,DEPOT_ID, MATTER_ID, ALL_NUMBER,-->
+<!--      IN_USE_NUMBER, OUT_USE_NUMBER FROM BASE_DEPOT_TO_MATTER-->
+<!--where   OUT_USE_NUMBER>0 order by OUT_USE_NUMBER desc) b-->
+<!-- on a.MATTER_NO=b.MATTER_ID-->
+
+<!--where TASK_LEADER_ID=#{user} and TASK_STATUS not in ('已完成') and FILL_BILL_ID=#{fillBillId}) g left join-->
+<!--(select i.STORAGE_LOCATION_COD,j.counts from(-->
+<!--select x.ID,y.STORAGE_LOCATION_COD PARENT_CODE,y.PARENT_ID GRAND_ID,x.STORAGE_LOCATION_COD,x.PARENT_ID  from BASE_DEPOT_MANAGEMENT x-->
+<!--left join-->
+<!--(select ID,STORAGE_LOCATION_COD,PARENT_ID  from BASE_DEPOT_MANAGEMENT ) y on x.PARENT_ID=y.ID ) i left join-->
+<!--(select count(STORAGE_LOCATION_COD) counts,PARENT_ID from BASE_DEPOT_MANAGEMENT group by PARENT_ID) j  on j.PARENT_ID=i.GRAND_ID) h on g.DEPOT_ID=h.STORAGE_LOCATION_COD-->
+<!--  </select>-->
+
+  <select id="findPositionByBill" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+SELECT
+	h.counts ONE_AREA_NUMBER,
+	h.GRADE,
+	g.DEPOT_ID,
+	g.REAL_NUMBER,
+	g.IN_USE_NUMBER,
+	g.FREE_NUMBER,
+	g.PRINT_TIME,
+	g.FILL_BILL_ID,
+	g.WORK_LINE,
+	g.MATTER_NO,
+	g.MATTER_NUMBER,
+	g.STATUS,
+	g.TASK_LEADER_ID,
+	g.TASK_STATUS,
+	g.MATTER_SPEC,
+	g.MATTER_NAME,
+	g.BILL_DATE
+FROM
+	(
+	SELECT
+		DEPOT_ID,
+		REAL_NUMBER,
+		IN_USE_NUMBER,
+		FREE_NUMBER,
+		PRINT_TIME,
+
+		a.FILL_BILL_ID,
+		a.WORK_LINE,
+		a.MATTER_NO,
+		a.MATTER_NUMBER,
+		a.STATUS,
+		a.TASK_LEADER_ID,
+		a.TASK_STATUS,
+		a.MATTER_SPEC,
+		a.MATTER_NAME,
+		a.BILL_DATE
+	FROM
+		OUT_BOUND_FILL_BILL a
+		LEFT JOIN ( SELECT aa.REAL_NUMBER,aa.PRINT_TIME,aa.IN_USE_NUMBER,aa.FREE_NUMBER,aa.ID, aa.DEPOT_ID, aa.MATTER_ID, aa.CASE_NO  FROM BASE_DEPOT_TO_CASE aa  order by aa.print_time asc ) b ON a.MATTER_NO = b.MATTER_ID
+	WHERE
+		TASK_LEADER_ID =#{user}
+		AND TASK_STATUS NOT IN ( '已完成' )
+		AND FILL_BILL_ID = #{fillBillId}
+	) g
+	LEFT JOIN (
+	SELECT
+		i.STORAGE_LOCATION_COD,
+		i.GRADE,
+		j.counts
+	FROM
+		(
+		SELECT
+			x.ID,
+			y.STORAGE_LOCATION_COD PARENT_CODE,
+			y.PARENT_ID GRAND_ID,
+			x.STORAGE_LOCATION_COD,
+			x.GRADE,
+			x.PARENT_ID
+		FROM
+			BASE_DEPOT_MANAGEMENT x
+			LEFT JOIN ( SELECT ID, STORAGE_LOCATION_COD, PARENT_ID FROM BASE_DEPOT_MANAGEMENT ) y ON x.PARENT_ID = y.ID
+		) i
+	LEFT JOIN ( SELECT count( STORAGE_LOCATION_COD ) counts, PARENT_ID FROM BASE_DEPOT_MANAGEMENT GROUP BY PARENT_ID ) j ON j.PARENT_ID = i.GRAND_ID
+	) h ON g.DEPOT_ID = h.STORAGE_LOCATION_COD
+  </select>
+
+
+
+
+
+  <select id="findFillBill" parameterType="com.bpm.gd.wms.outbound.server.dto.QueryFillBillDTO" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+    select FILL_BILL_ID,WORK_LINE,max(TASK_STATUS) TASK_STATUS,max(BILL_DATE) BILL_DATE  from OUT_BOUND_FILL_BILL
+    where 1=1
+    <if test="fillBillId != null and fillBillId != ''">
+      and  fill_bill_id=#{fillBillId}
+    </if>
+
+    <if test="startDate != null">
+      and BILL_DATE >= to_date(to_char(#{startDate}, 'yyyy-MM-dd HH:mm:ss'),'yyyy-mm-dd hh24:mi:ss')
+    </if>
+
+    <if test="endDate != null">
+      and BILL_DATE &lt;= to_date(to_char(#{endDate}, 'yyyy-MM-dd HH:mm:ss'),'yyyy-mm-dd hh24:mi:ss')
+    </if>
+    group by FILL_BILL_ID,WORK_LINE
+
+    having 1=1
+
+
+
+    <if test="dispachType == '已派发'">
+      and max(TASK_STATUS) ='已分配'
+    </if>
+    <if test="dispachType == '未派发'">
+      and max(TASK_STATUS) !='已分配'
+    </if>
+  </select>
+<!--  <select id="findFillBill" parameterType="com.bpm.gd.wms.outbound.server.dto.QueryFillBillDTO" resultMap="ChildResultMap">-->
+<!--    select a.fill_bill_id,a.MATTER_NUM,a.REAL_NUM,a.matter_num child_matter_number,b.ID child_matter_id,b.MATTER_SPEC child_matter_spec,b.MATTER_NAME child_matter_name,c.STATUS,c.TASK_STATUS,c.TASK_LEADER_ID,c.BILL_DATE from OUT_BOUND_BILL_TO_MATTER a-->
+<!--    left join BASE_MATTER_INFO b on a.MATTER_NO=b.ID-->
+<!--    left join OUT_BOUND_FILL_BILL c on  c.fill_bill_id=a.fill_bill_id-->
+<!--    where 1=1-->
+<!--    <if test="fillBillId != null and fillBillId != ''">-->
+<!--      and   c.fill_bill_id=#{fillBillId}-->
+<!--    </if>-->
+
+<!--    <if test="startDate != null and startDate != ''">-->
+<!--      and c.BILL_DATE>=to_date(#{startDate},'yyyy-mm-dd')-->
+<!--    </if>-->
+
+<!--    <if test="endDate != null and endDate != ''">-->
+<!--      and c.BILL_DATE &lt;= to_date(#{endDate},'yyyy-mm-dd')-->
+<!--    </if>-->
+<!--  </select>-->
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from OUT_BOUND_FILL_BILL
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from OUT_BOUND_FILL_BILL
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from OUT_BOUND_FILL_BILL
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillExample">
+    delete from OUT_BOUND_FILL_BILL
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      Oracle
+    </selectKey>
+    insert into OUT_BOUND_FILL_BILL (FILL_BILL_ID, WORK_LINE, MATTER_NO, 
+      MATTER_NUMBER, STATUS, TASK_LEADER_ID, 
+      TASK_STATUS, MATTER_SPEC, MATTER_NAME, 
+      BILL_DATE)
+    values (#{fillBillId,jdbcType=VARCHAR}, #{workLine,jdbcType=VARCHAR}, #{matterNo,jdbcType=VARCHAR}, 
+      #{matterNumber,jdbcType=NUMERIC}, #{status,jdbcType=VARCHAR}, #{taskLeaderId,jdbcType=VARCHAR}, 
+      #{taskStatus,jdbcType=VARCHAR}, #{matterSpec,jdbcType=VARCHAR}, #{matterName,jdbcType=VARCHAR}, 
+      #{billDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      Oracle
+    </selectKey>
+    insert into OUT_BOUND_FILL_BILL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fillBillId != null">
+        FILL_BILL_ID,
+      </if>
+      <if test="workLine != null">
+        WORK_LINE,
+      </if>
+      <if test="matterNo != null">
+        MATTER_NO,
+      </if>
+      <if test="matterNumber != null">
+        MATTER_NUMBER,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="taskLeaderId != null">
+        TASK_LEADER_ID,
+      </if>
+      <if test="taskStatus != null">
+        TASK_STATUS,
+      </if>
+      <if test="matterSpec != null">
+        MATTER_SPEC,
+      </if>
+      <if test="matterName != null">
+        MATTER_NAME,
+      </if>
+      <if test="billDate != null">
+        BILL_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fillBillId != null">
+        #{fillBillId,jdbcType=VARCHAR},
+      </if>
+      <if test="workLine != null">
+        #{workLine,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNo != null">
+        #{matterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNumber != null">
+        #{matterNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="taskLeaderId != null">
+        #{taskLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null">
+        #{taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="matterSpec != null">
+        #{matterSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="matterName != null">
+        #{matterName,jdbcType=VARCHAR},
+      </if>
+      <if test="billDate != null">
+        #{billDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillExample" resultType="java.lang.Long">
+    select count(*) from OUT_BOUND_FILL_BILL
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update OUT_BOUND_FILL_BILL
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fillBillId != null">
+        FILL_BILL_ID = #{record.fillBillId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workLine != null">
+        WORK_LINE = #{record.workLine,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterNo != null">
+        MATTER_NO = #{record.matterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterNumber != null">
+        MATTER_NUMBER = #{record.matterNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskLeaderId != null">
+        TASK_LEADER_ID = #{record.taskLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskStatus != null">
+        TASK_STATUS = #{record.taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterSpec != null">
+        MATTER_SPEC = #{record.matterSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterName != null">
+        MATTER_NAME = #{record.matterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billDate != null">
+        BILL_DATE = #{record.billDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update OUT_BOUND_FILL_BILL
+    set ID = #{record.id,jdbcType=VARCHAR},
+      FILL_BILL_ID = #{record.fillBillId,jdbcType=VARCHAR},
+      WORK_LINE = #{record.workLine,jdbcType=VARCHAR},
+      MATTER_NO = #{record.matterNo,jdbcType=VARCHAR},
+      MATTER_NUMBER = #{record.matterNumber,jdbcType=NUMERIC},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      TASK_LEADER_ID = #{record.taskLeaderId,jdbcType=VARCHAR},
+      TASK_STATUS = #{record.taskStatus,jdbcType=VARCHAR},
+      MATTER_SPEC = #{record.matterSpec,jdbcType=VARCHAR},
+      MATTER_NAME = #{record.matterName,jdbcType=VARCHAR},
+      BILL_DATE = #{record.billDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+    update OUT_BOUND_FILL_BILL
+    <set>
+      <if test="fillBillId != null">
+        FILL_BILL_ID = #{fillBillId,jdbcType=VARCHAR},
+      </if>
+      <if test="workLine != null">
+        WORK_LINE = #{workLine,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNo != null">
+        MATTER_NO = #{matterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNumber != null">
+        MATTER_NUMBER = #{matterNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="taskLeaderId != null">
+        TASK_LEADER_ID = #{taskLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null">
+        TASK_STATUS = #{taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="matterSpec != null">
+        MATTER_SPEC = #{matterSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="matterName != null">
+        MATTER_NAME = #{matterName,jdbcType=VARCHAR},
+      </if>
+      <if test="billDate != null">
+        BILL_DATE = #{billDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBill">
+    update OUT_BOUND_FILL_BILL
+    set FILL_BILL_ID = #{fillBillId,jdbcType=VARCHAR},
+      WORK_LINE = #{workLine,jdbcType=VARCHAR},
+      MATTER_NO = #{matterNo,jdbcType=VARCHAR},
+      MATTER_NUMBER = #{matterNumber,jdbcType=NUMERIC},
+      STATUS = #{status,jdbcType=VARCHAR},
+      TASK_LEADER_ID = #{taskLeaderId,jdbcType=VARCHAR},
+      TASK_STATUS = #{taskStatus,jdbcType=VARCHAR},
+      MATTER_SPEC = #{matterSpec,jdbcType=VARCHAR},
+      MATTER_NAME = #{matterName,jdbcType=VARCHAR},
+      BILL_DATE = #{billDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.ext.OutBoundWorkOrderExtMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="WORK_ORDER_ID" jdbcType="VARCHAR" property="workOrderId" />
+    <result column="WORK_LINE" jdbcType="VARCHAR" property="workLine" />
+    <result column="MATTER_NO" jdbcType="VARCHAR" property="matterNo" />
+    <result column="MATTER_NAME" jdbcType="VARCHAR" property="matterName" />
+    <result column="MATTER_NUMBER" jdbcType="NUMERIC" property="matterNumber" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="TASK_LEADER_ID" jdbcType="VARCHAR" property="taskLeaderId" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="MATTER_SPEC" jdbcType="VARCHAR" property="matterSpec" />
+    <result column="WORK_ORDER_DATE" jdbcType="TIMESTAMP" property="workOrderDate" />
+  </resultMap>
+  <resultMap id="ChildResultMap" type="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="WORK_ORDER_ID" jdbcType="VARCHAR" property="workOrderId" />
+    <result column="WORK_LINE" jdbcType="VARCHAR" property="workLine" />
+    <result column="MATTER_NO" jdbcType="VARCHAR" property="matterNo" />
+    <result column="MATTER_NAME" jdbcType="VARCHAR" property="matterName" />
+    <result column="MATTER_NUMBER" jdbcType="NUMERIC" property="matterNumber" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="TASK_LEADER_ID" jdbcType="VARCHAR" property="taskLeaderId" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="MATTER_SPEC" jdbcType="VARCHAR" property="matterSpec" />
+    <result column="WORK_ORDER_DATE" jdbcType="TIMESTAMP" property="workOrderDate" />
+    <collection property="children"  ofType="com.bpm.gd.wms.outbound.server.domain.MatterInfo" javaType="java.util.List">
+      <id column="CHILD_MATTER_ID" jdbcType="VARCHAR" property="matterId" />
+      <result column="CHILD_MATTER_NAME" jdbcType="VARCHAR" property="matterName" />
+      <result column="CHILD_MATTER_SPEC" jdbcType="VARCHAR" property="matterSpec" />
+      <result column="CHILD_MATTER_NUMBER" jdbcType="NUMERIC" property="matterNumber" />
+    </collection>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, WORK_ORDER_ID, WORK_LINE, MATTER_NO, MATTER_NAME, MATTER_NUMBER, STATUS, TASK_LEADER_ID, 
+    TASK_STATUS, MATTER_SPEC, WORK_ORDER_DATE
+  </sql>
+
+
+  <select id="findPositionByBill" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+SELECT
+	h.counts ONE_AREA_NUMBER,
+	h.GRADE,
+	g.DEPOT_ID,
+	g.REAL_NUMBER,
+	g.IN_USE_NUMBER,
+	g.FREE_NUMBER,
+	g.PRINT_TIME,
+	g.WORK_ORDER_ID,
+	g.WORK_LINE,
+	g.MATTER_NO,
+	g.MATTER_NUMBER,
+	g.STATUS,
+	g.TASK_LEADER_ID,
+	g.TASK_STATUS,
+	g.MATTER_SPEC,
+	g.MATTER_NAME,
+	g.WORK_ORDER_DATE
+FROM
+	(
+	SELECT
+		DEPOT_ID,
+		REAL_NUMBER,
+		IN_USE_NUMBER,
+		FREE_NUMBER,
+		PRINT_TIME,
+		a.WORK_ORDER_ID,
+		a.WORK_LINE,
+		a.MATTER_NO,
+		a.MATTER_NUMBER,
+		a.STATUS,
+		a.TASK_LEADER_ID,
+		a.TASK_STATUS,
+		a.MATTER_SPEC,
+		a.MATTER_NAME,
+		a.WORK_ORDER_DATE
+	FROM
+		OUT_BOUND_WORK_ORDER a
+		LEFT JOIN (
+		SELECT
+			aa.REAL_NUMBER,
+			aa.PRINT_TIME,
+			aa.IN_USE_NUMBER,
+			aa.FREE_NUMBER,
+			aa.ID,
+			aa.DEPOT_ID,
+			aa.MATTER_ID,
+			aa.CASE_NO
+		FROM
+			BASE_DEPOT_TO_CASE aa
+		ORDER BY
+			aa.print_time ASC
+		) b ON a.MATTER_NO = b.MATTER_ID
+	WHERE
+		TASK_LEADER_ID = #{user}
+		AND TASK_STATUS NOT IN ( '已完成' )
+		AND WORK_ORDER_ID = #{workOrderId}
+	) g
+	LEFT JOIN (
+	SELECT
+		i.STORAGE_LOCATION_COD,
+		i.GRADE,
+		j.counts
+	FROM
+		(
+		SELECT
+			x.ID,
+			y.STORAGE_LOCATION_COD PARENT_CODE,
+			y.PARENT_ID GRAND_ID,
+			x.STORAGE_LOCATION_COD,
+			x.GRADE,
+			x.PARENT_ID
+		FROM
+			BASE_DEPOT_MANAGEMENT x
+			LEFT JOIN ( SELECT ID, STORAGE_LOCATION_COD, PARENT_ID FROM BASE_DEPOT_MANAGEMENT ) y ON x.PARENT_ID = y.ID
+		) i
+	LEFT JOIN ( SELECT count( STORAGE_LOCATION_COD ) counts, PARENT_ID FROM BASE_DEPOT_MANAGEMENT GROUP BY PARENT_ID ) j ON j.PARENT_ID = i.GRAND_ID
+	) h ON g.DEPOT_ID = h.STORAGE_LOCATION_COD
+  </select>
+
+
+  <select id="findPositionById" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+select h.counts ONE_AREA_NUMBER,g.DEPOT_ID,g.ALL_NUMBER,g.IN_USE_NUMBER,g.OUT_USE_NUMBER,g.WORK_ORDER_ID, g.WORK_LINE, g.MATTER_NO,g.MATTER_NUMBER, g.STATUS, g.TASK_LEADER_ID,g.TASK_STATUS, g.MATTER_SPEC, g.MATTER_NAME,g.WORK_ORDER_DATE from (
+ select DEPOT_ID, ALL_NUMBER,
+      IN_USE_NUMBER, OUT_USE_NUMBER,a.WORK_ORDER_ID, a.WORK_LINE, a.MATTER_NO,
+      a.MATTER_NUMBER, a.STATUS, a.TASK_LEADER_ID,
+      a.TASK_STATUS, a.MATTER_SPEC, a.MATTER_NAME,
+      a.WORK_ORDER_DATE from OUT_BOUND_WORK_ORDER a
+
+left join
+(SELECT ID,DEPOT_ID, MATTER_ID, ALL_NUMBER,
+      IN_USE_NUMBER, OUT_USE_NUMBER FROM BASE_DEPOT_TO_MATTER
+where   OUT_USE_NUMBER>0 order by OUT_USE_NUMBER desc) b
+ on a.MATTER_NO=b.MATTER_ID
+
+where TASK_LEADER_ID=#{user} and TASK_STATUS not in ('已完成') and WORK_ORDER_ID=#{workOrderId}) g left join
+(select i.STORAGE_LOCATION_COD,j.counts from(
+select x.ID,y.STORAGE_LOCATION_COD PARENT_CODE,y.PARENT_ID GRAND_ID,x.STORAGE_LOCATION_COD,x.PARENT_ID  from BASE_DEPOT_MANAGEMENT x
+left join
+(select ID,STORAGE_LOCATION_COD,PARENT_ID  from BASE_DEPOT_MANAGEMENT ) y on x.PARENT_ID=y.ID ) i left join
+(select count(STORAGE_LOCATION_COD) counts,PARENT_ID from BASE_DEPOT_MANAGEMENT group by PARENT_ID) j  on j.PARENT_ID=i.GRAND_ID) h on g.DEPOT_ID=h.STORAGE_LOCATION_COD
+  </select>
+
+
+  <select id="findWorkOrder" parameterType="com.bpm.gd.wms.outbound.server.dto.QueryWorkOrderDTO" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+    select WORK_ORDER_ID,WORK_LINE,max(TASK_STATUS) TASK_STATUS,max(WORK_ORDER_DATE) WORK_ORDER_DATE  from OUT_BOUND_WORK_ORDER
+    where 1=1
+    <if test="workOrderId != null and workOrderId != ''">
+      and   work_order_id=#{workOrderId}
+    </if>
+    <if test="startDate != null">
+      and WORK_ORDER_DATE >= to_date(to_char(#{startDate}, 'yyyy-MM-dd HH:mm:ss'),'yyyy-mm-dd hh24:mi:ss')
+    </if>
+
+    <if test="endDate != null">
+      and WORK_ORDER_DATE &lt;= to_date(to_char(#{endDate}, 'yyyy-MM-dd HH:mm:ss'),'yyyy-mm-dd hh24:mi:ss')
+    </if>
+    group by WORK_ORDER_ID,WORK_LINE
+    having 1=1
+
+    <if test="dispachType == '已派发'">
+      and max(TASK_STATUS) ='已分配'
+    </if>
+    <if test="dispachType == '未派发'">
+      and max(TASK_STATUS) !='已分配'
+    </if>
+  </select>
+
+
+  <select id="findWorkOrderMatter" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+    select * from OUT_BOUND_WORK_ORDER
+    where  WORK_ORDER_ID=#{workOrderId}
+  </select>
+
+  <select id="findMatterByWorkOrder" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+    select * from OUT_BOUND_WORK_ORDER
+    where TASK_LEADER_ID=#{user} and TASK_STATUS not in ('已完成') and WORK_ORDER_ID=#{workOrderId}
+  </select>
+  <select id="findTaskByUser" parameterType="java.lang.String" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+    select distinct WORK_ORDER_ID, WORK_LINE,WORK_ORDER_DATE  from OUT_BOUND_WORK_ORDER
+    where TASK_LEADER_ID=#{user} and TASK_STATUS not in ('已完成')
+  </select>
+
+
+
+  <update id="dispatchWorkOrder" parameterType="java.util.List" >
+    update OUT_BOUND_WORK_ORDER
+    set TASK_STATUS='已分配',
+    TASK_LEADER_ID = (CASE
+    <foreach collection="list" index="index" item="item" open=" " separator=" " close=" ">
+      WHEN work_order_id=#{item}
+      THEN (
+        select USER_ID  from OUT_BOUND_WORK_ORDER a left join OUT_BOUND_TASK_ROLE b on a.WORK_LINE=b.WORK_LINE
+        where a.work_order_id=#{item}  and b.WORK_LINE=(select DISTINCT WORK_LINE from OUT_BOUND_WORK_ORDER where work_order_id=#{item} )
+      )
+    </foreach>
+    END)
+    where work_order_id in
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from OUT_BOUND_WORK_ORDER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from OUT_BOUND_WORK_ORDER
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from OUT_BOUND_WORK_ORDER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrderExample">
+    delete from OUT_BOUND_WORK_ORDER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+
+
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      Oracle
+    </selectKey>
+    insert into OUT_BOUND_WORK_ORDER (WORK_ORDER_ID, WORK_LINE, MATTER_NO,
+      MATTER_NAME, MATTER_NUMBER, STATUS,
+      TASK_LEADER_ID, TASK_STATUS, MATTER_SPEC,
+      WORK_ORDER_DATE)
+    values (#{workOrderId,jdbcType=VARCHAR}, #{workLine,jdbcType=VARCHAR}, #{matterNo,jdbcType=VARCHAR},
+      #{matterName,jdbcType=VARCHAR}, #{matterNumber,jdbcType=NUMERIC}, #{status,jdbcType=VARCHAR},
+      #{taskLeaderId,jdbcType=VARCHAR}, #{taskStatus,jdbcType=VARCHAR}, #{matterSpec,jdbcType=VARCHAR},
+      #{workOrderDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      Oracle
+    </selectKey>
+    insert into OUT_BOUND_WORK_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="workOrderId != null">
+        WORK_ORDER_ID,
+      </if>
+      <if test="workLine != null">
+        WORK_LINE,
+      </if>
+      <if test="matterNo != null">
+        MATTER_NO,
+      </if>
+      <if test="matterName != null">
+        MATTER_NAME,
+      </if>
+      <if test="matterNumber != null">
+        MATTER_NUMBER,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="taskLeaderId != null">
+        TASK_LEADER_ID,
+      </if>
+      <if test="taskStatus != null">
+        TASK_STATUS,
+      </if>
+      <if test="matterSpec != null">
+        MATTER_SPEC,
+      </if>
+      <if test="workOrderDate != null">
+        WORK_ORDER_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="workOrderId != null">
+        #{workOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="workLine != null">
+        #{workLine,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNo != null">
+        #{matterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="matterName != null">
+        #{matterName,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNumber != null">
+        #{matterNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="taskLeaderId != null">
+        #{taskLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null">
+        #{taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="matterSpec != null">
+        #{matterSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderDate != null">
+        #{workOrderDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrderExample" resultType="java.lang.Long">
+    select count(*) from OUT_BOUND_WORK_ORDER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update OUT_BOUND_WORK_ORDER
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workOrderId != null">
+        WORK_ORDER_ID = #{record.workOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workLine != null">
+        WORK_LINE = #{record.workLine,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterNo != null">
+        MATTER_NO = #{record.matterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterName != null">
+        MATTER_NAME = #{record.matterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterNumber != null">
+        MATTER_NUMBER = #{record.matterNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskLeaderId != null">
+        TASK_LEADER_ID = #{record.taskLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskStatus != null">
+        TASK_STATUS = #{record.taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterSpec != null">
+        MATTER_SPEC = #{record.matterSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workOrderDate != null">
+        WORK_ORDER_DATE = #{record.workOrderDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update OUT_BOUND_WORK_ORDER
+    set ID = #{record.id,jdbcType=VARCHAR},
+      WORK_ORDER_ID = #{record.workOrderId,jdbcType=VARCHAR},
+      WORK_LINE = #{record.workLine,jdbcType=VARCHAR},
+      MATTER_NO = #{record.matterNo,jdbcType=VARCHAR},
+      MATTER_NAME = #{record.matterName,jdbcType=VARCHAR},
+      MATTER_NUMBER = #{record.matterNumber,jdbcType=NUMERIC},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      TASK_LEADER_ID = #{record.taskLeaderId,jdbcType=VARCHAR},
+      TASK_STATUS = #{record.taskStatus,jdbcType=VARCHAR},
+      MATTER_SPEC = #{record.matterSpec,jdbcType=VARCHAR},
+      WORK_ORDER_DATE = #{record.workOrderDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+    update OUT_BOUND_WORK_ORDER
+    <set>
+      <if test="workOrderId != null">
+        WORK_ORDER_ID = #{workOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="workLine != null">
+        WORK_LINE = #{workLine,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNo != null">
+        MATTER_NO = #{matterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="matterName != null">
+        MATTER_NAME = #{matterName,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNumber != null">
+        MATTER_NUMBER = #{matterNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="taskLeaderId != null">
+        TASK_LEADER_ID = #{taskLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null">
+        TASK_STATUS = #{taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="matterSpec != null">
+        MATTER_SPEC = #{matterSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderDate != null">
+        WORK_ORDER_DATE = #{workOrderDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundWorkOrder">
+    update OUT_BOUND_WORK_ORDER
+    set WORK_ORDER_ID = #{workOrderId,jdbcType=VARCHAR},
+      WORK_LINE = #{workLine,jdbcType=VARCHAR},
+      MATTER_NO = #{matterNo,jdbcType=VARCHAR},
+      MATTER_NAME = #{matterName,jdbcType=VARCHAR},
+      MATTER_NUMBER = #{matterNumber,jdbcType=NUMERIC},
+      STATUS = #{status,jdbcType=VARCHAR},
+      TASK_LEADER_ID = #{taskLeaderId,jdbcType=VARCHAR},
+      TASK_STATUS = #{taskStatus,jdbcType=VARCHAR},
+      MATTER_SPEC = #{matterSpec,jdbcType=VARCHAR},
+      WORK_ORDER_DATE = #{workOrderDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

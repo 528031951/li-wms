@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: gd-wms-outbound
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  redis:
+    host: localhost
+    port: 6379
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  page-size-zero: true
+mybatis:
+  typeAliasesPackage: com.bpm.gd.wms.outbound.server.mapper
+  mapperLocations: classpath:mapper/*/*.xml
+rule:
+  log:
+    enable: false
+  service-name: demo案例服务
+# 服务版本管理配置
+info:
+  build:
+     artifact: '@project.artifactId@'
+     version: '@project.version@'
+     server-name: ${rule.service-name}
+#日志输出mybatis里面的sql
+logging:
+  level:
+    com.bpm.gd.wms.outbound.server.mapper: debug
+

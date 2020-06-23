@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.base.OutBoundFillBillTaskMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="FILL_BILL_ID" jdbcType="VARCHAR" property="fillBillId" />
+    <result column="WORK_LINE" jdbcType="VARCHAR" property="workLine" />
+    <result column="MATTER_NO" jdbcType="VARCHAR" property="matterNo" />
+    <result column="MATTER_NUMBER" jdbcType="NUMERIC" property="matterNumber" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="TASK_LEADER_ID" jdbcType="VARCHAR" property="taskLeaderId" />
+    <result column="TASK_STATUS" jdbcType="VARCHAR" property="taskStatus" />
+    <result column="MATTER_SPEC" jdbcType="VARCHAR" property="matterSpec" />
+    <result column="MATTER_NAME" jdbcType="VARCHAR" property="matterName" />
+    <result column="BILL_DATE" jdbcType="TIMESTAMP" property="billDate" />
+    <result column="DEPOT_ID" jdbcType="VARCHAR" property="depotId" />
+    <result column="OUT_STATUS" jdbcType="VARCHAR" property="outStatus" />
+    <result column="OUT_NUMBER" jdbcType="NUMERIC" property="outNumber" />
+    <result column="ALL_NUMBER" jdbcType="NUMERIC" property="allNumber" />
+    <result column="IN_USE_NUMBER" jdbcType="NUMERIC" property="inUseNumber" />
+    <result column="OUT_USE_NUMBER" jdbcType="NUMERIC" property="outUseNumber" />
+    <result column="ADD_USE_NUMBER" jdbcType="NUMERIC" property="addUseNumber" />
+    <result column="ONE_AREA_NUMBER" jdbcType="NUMERIC" property="oneAreaNumber" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, FILL_BILL_ID, WORK_LINE, MATTER_NO, MATTER_NUMBER, STATUS, TASK_LEADER_ID, TASK_STATUS, 
+    MATTER_SPEC, MATTER_NAME, BILL_DATE, DEPOT_ID, OUT_STATUS, OUT_NUMBER, ALL_NUMBER, 
+    IN_USE_NUMBER, OUT_USE_NUMBER, ADD_USE_NUMBER, ONE_AREA_NUMBER
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTaskExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from OUT_BOUND_FILL_BILL_TASK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from OUT_BOUND_FILL_BILL_TASK
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from OUT_BOUND_FILL_BILL_TASK
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTaskExample">
+    delete from OUT_BOUND_FILL_BILL_TASK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      Oracle
+    </selectKey>
+    insert into OUT_BOUND_FILL_BILL_TASK (FILL_BILL_ID, WORK_LINE, MATTER_NO, 
+      MATTER_NUMBER, STATUS, TASK_LEADER_ID, 
+      TASK_STATUS, MATTER_SPEC, MATTER_NAME, 
+      BILL_DATE, DEPOT_ID, OUT_STATUS, 
+      OUT_NUMBER, ALL_NUMBER, IN_USE_NUMBER, 
+      OUT_USE_NUMBER, ADD_USE_NUMBER, ONE_AREA_NUMBER
+      )
+    values (#{fillBillId,jdbcType=VARCHAR}, #{workLine,jdbcType=VARCHAR}, #{matterNo,jdbcType=VARCHAR}, 
+      #{matterNumber,jdbcType=NUMERIC}, #{status,jdbcType=VARCHAR}, #{taskLeaderId,jdbcType=VARCHAR}, 
+      #{taskStatus,jdbcType=VARCHAR}, #{matterSpec,jdbcType=VARCHAR}, #{matterName,jdbcType=VARCHAR}, 
+      #{billDate,jdbcType=TIMESTAMP}, #{depotId,jdbcType=VARCHAR}, #{outStatus,jdbcType=VARCHAR}, 
+      #{outNumber,jdbcType=NUMERIC}, #{allNumber,jdbcType=NUMERIC}, #{inUseNumber,jdbcType=NUMERIC}, 
+      #{outUseNumber,jdbcType=NUMERIC}, #{addUseNumber,jdbcType=NUMERIC}, #{oneAreaNumber,jdbcType=NUMERIC}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      Oracle
+    </selectKey>
+    insert into OUT_BOUND_FILL_BILL_TASK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fillBillId != null">
+        FILL_BILL_ID,
+      </if>
+      <if test="workLine != null">
+        WORK_LINE,
+      </if>
+      <if test="matterNo != null">
+        MATTER_NO,
+      </if>
+      <if test="matterNumber != null">
+        MATTER_NUMBER,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="taskLeaderId != null">
+        TASK_LEADER_ID,
+      </if>
+      <if test="taskStatus != null">
+        TASK_STATUS,
+      </if>
+      <if test="matterSpec != null">
+        MATTER_SPEC,
+      </if>
+      <if test="matterName != null">
+        MATTER_NAME,
+      </if>
+      <if test="billDate != null">
+        BILL_DATE,
+      </if>
+      <if test="depotId != null">
+        DEPOT_ID,
+      </if>
+      <if test="outStatus != null">
+        OUT_STATUS,
+      </if>
+      <if test="outNumber != null">
+        OUT_NUMBER,
+      </if>
+      <if test="allNumber != null">
+        ALL_NUMBER,
+      </if>
+      <if test="inUseNumber != null">
+        IN_USE_NUMBER,
+      </if>
+      <if test="outUseNumber != null">
+        OUT_USE_NUMBER,
+      </if>
+      <if test="addUseNumber != null">
+        ADD_USE_NUMBER,
+      </if>
+      <if test="oneAreaNumber != null">
+        ONE_AREA_NUMBER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fillBillId != null">
+        #{fillBillId,jdbcType=VARCHAR},
+      </if>
+      <if test="workLine != null">
+        #{workLine,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNo != null">
+        #{matterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNumber != null">
+        #{matterNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="taskLeaderId != null">
+        #{taskLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null">
+        #{taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="matterSpec != null">
+        #{matterSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="matterName != null">
+        #{matterName,jdbcType=VARCHAR},
+      </if>
+      <if test="billDate != null">
+        #{billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="depotId != null">
+        #{depotId,jdbcType=VARCHAR},
+      </if>
+      <if test="outStatus != null">
+        #{outStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="outNumber != null">
+        #{outNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="allNumber != null">
+        #{allNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="inUseNumber != null">
+        #{inUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="outUseNumber != null">
+        #{outUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="addUseNumber != null">
+        #{addUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="oneAreaNumber != null">
+        #{oneAreaNumber,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTaskExample" resultType="java.lang.Long">
+    select count(*) from OUT_BOUND_FILL_BILL_TASK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update OUT_BOUND_FILL_BILL_TASK
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fillBillId != null">
+        FILL_BILL_ID = #{record.fillBillId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workLine != null">
+        WORK_LINE = #{record.workLine,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterNo != null">
+        MATTER_NO = #{record.matterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterNumber != null">
+        MATTER_NUMBER = #{record.matterNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskLeaderId != null">
+        TASK_LEADER_ID = #{record.taskLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskStatus != null">
+        TASK_STATUS = #{record.taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterSpec != null">
+        MATTER_SPEC = #{record.matterSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterName != null">
+        MATTER_NAME = #{record.matterName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billDate != null">
+        BILL_DATE = #{record.billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.depotId != null">
+        DEPOT_ID = #{record.depotId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outStatus != null">
+        OUT_STATUS = #{record.outStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outNumber != null">
+        OUT_NUMBER = #{record.outNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.allNumber != null">
+        ALL_NUMBER = #{record.allNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.inUseNumber != null">
+        IN_USE_NUMBER = #{record.inUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.outUseNumber != null">
+        OUT_USE_NUMBER = #{record.outUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.addUseNumber != null">
+        ADD_USE_NUMBER = #{record.addUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.oneAreaNumber != null">
+        ONE_AREA_NUMBER = #{record.oneAreaNumber,jdbcType=NUMERIC},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update OUT_BOUND_FILL_BILL_TASK
+    set ID = #{record.id,jdbcType=VARCHAR},
+      FILL_BILL_ID = #{record.fillBillId,jdbcType=VARCHAR},
+      WORK_LINE = #{record.workLine,jdbcType=VARCHAR},
+      MATTER_NO = #{record.matterNo,jdbcType=VARCHAR},
+      MATTER_NUMBER = #{record.matterNumber,jdbcType=NUMERIC},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      TASK_LEADER_ID = #{record.taskLeaderId,jdbcType=VARCHAR},
+      TASK_STATUS = #{record.taskStatus,jdbcType=VARCHAR},
+      MATTER_SPEC = #{record.matterSpec,jdbcType=VARCHAR},
+      MATTER_NAME = #{record.matterName,jdbcType=VARCHAR},
+      BILL_DATE = #{record.billDate,jdbcType=TIMESTAMP},
+      DEPOT_ID = #{record.depotId,jdbcType=VARCHAR},
+      OUT_STATUS = #{record.outStatus,jdbcType=VARCHAR},
+      OUT_NUMBER = #{record.outNumber,jdbcType=NUMERIC},
+      ALL_NUMBER = #{record.allNumber,jdbcType=NUMERIC},
+      IN_USE_NUMBER = #{record.inUseNumber,jdbcType=NUMERIC},
+      OUT_USE_NUMBER = #{record.outUseNumber,jdbcType=NUMERIC},
+      ADD_USE_NUMBER = #{record.addUseNumber,jdbcType=NUMERIC},
+      ONE_AREA_NUMBER = #{record.oneAreaNumber,jdbcType=NUMERIC}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+    update OUT_BOUND_FILL_BILL_TASK
+    <set>
+      <if test="fillBillId != null">
+        FILL_BILL_ID = #{fillBillId,jdbcType=VARCHAR},
+      </if>
+      <if test="workLine != null">
+        WORK_LINE = #{workLine,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNo != null">
+        MATTER_NO = #{matterNo,jdbcType=VARCHAR},
+      </if>
+      <if test="matterNumber != null">
+        MATTER_NUMBER = #{matterNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="taskLeaderId != null">
+        TASK_LEADER_ID = #{taskLeaderId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskStatus != null">
+        TASK_STATUS = #{taskStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="matterSpec != null">
+        MATTER_SPEC = #{matterSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="matterName != null">
+        MATTER_NAME = #{matterName,jdbcType=VARCHAR},
+      </if>
+      <if test="billDate != null">
+        BILL_DATE = #{billDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="depotId != null">
+        DEPOT_ID = #{depotId,jdbcType=VARCHAR},
+      </if>
+      <if test="outStatus != null">
+        OUT_STATUS = #{outStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="outNumber != null">
+        OUT_NUMBER = #{outNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="allNumber != null">
+        ALL_NUMBER = #{allNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="inUseNumber != null">
+        IN_USE_NUMBER = #{inUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="outUseNumber != null">
+        OUT_USE_NUMBER = #{outUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="addUseNumber != null">
+        ADD_USE_NUMBER = #{addUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="oneAreaNumber != null">
+        ONE_AREA_NUMBER = #{oneAreaNumber,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask">
+    update OUT_BOUND_FILL_BILL_TASK
+    set FILL_BILL_ID = #{fillBillId,jdbcType=VARCHAR},
+      WORK_LINE = #{workLine,jdbcType=VARCHAR},
+      MATTER_NO = #{matterNo,jdbcType=VARCHAR},
+      MATTER_NUMBER = #{matterNumber,jdbcType=NUMERIC},
+      STATUS = #{status,jdbcType=VARCHAR},
+      TASK_LEADER_ID = #{taskLeaderId,jdbcType=VARCHAR},
+      TASK_STATUS = #{taskStatus,jdbcType=VARCHAR},
+      MATTER_SPEC = #{matterSpec,jdbcType=VARCHAR},
+      MATTER_NAME = #{matterName,jdbcType=VARCHAR},
+      BILL_DATE = #{billDate,jdbcType=TIMESTAMP},
+      DEPOT_ID = #{depotId,jdbcType=VARCHAR},
+      OUT_STATUS = #{outStatus,jdbcType=VARCHAR},
+      OUT_NUMBER = #{outNumber,jdbcType=NUMERIC},
+      ALL_NUMBER = #{allNumber,jdbcType=NUMERIC},
+      IN_USE_NUMBER = #{inUseNumber,jdbcType=NUMERIC},
+      OUT_USE_NUMBER = #{outUseNumber,jdbcType=NUMERIC},
+      ADD_USE_NUMBER = #{addUseNumber,jdbcType=NUMERIC},
+      ONE_AREA_NUMBER = #{oneAreaNumber,jdbcType=NUMERIC}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
