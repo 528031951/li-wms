@@ -1,5 +1,6 @@
 package com.bpm.gd.wms.outbound.server.service;
 
+import com.bpm.gd.wms.outbound.common.dto.PageDTO;
 import com.bpm.gd.wms.outbound.common.vo.ResultVO;
 import com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask;
 import com.bpm.gd.wms.outbound.server.domain.SendOrder;
@@ -74,4 +75,14 @@ public interface OutBoundService {
     ResultVO findTransferOrder(QueryBillDTO queryBillDTO);
 
     ResultVO findTransferInfo(String transferId);
+
+    ResultVO findShipmentAllPageList(OutBoundSaleShipmentDTO outBoundSaleShipmentDTO);
+
+    ResultVO findShipmentDetailsByShipmentNo(String shipmentNo,String shipmentDetailsStatus);
+
+    ResultVO findWarehousingProductReceiptByProductCode(String productCode);
+
+    String addTransferOrder(CougnyTransferOrdersDTO cougnyTransferOrdersDTO);
+
+    ResultVO findTransferOrder2(CougnyTransferOrderDTOS cougnyTransferOrderDTOS);
 }

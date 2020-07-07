@@ -1,5 +1,6 @@
 package com.bpm.gd.wms.outbound.server.service.impl;
 
+import com.bpm.gd.wms.outbound.common.dto.PageDTO;
 import com.bpm.gd.wms.outbound.common.util.ResultUtil;
 import com.bpm.gd.wms.outbound.common.vo.PageInfoVO;
 import com.bpm.gd.wms.outbound.common.vo.ResultVO;
@@ -26,7 +27,6 @@ public class OutBoundServiceImpl implements OutBoundService {
     @Autowired
     private OutBoundWorkOrderExtMapper outBoundWorkOrderExtMapper;
 
-
     @Autowired
     private OutBoundFillBillExtMapper outBoundFillBillExtMapper;
 
@@ -41,6 +41,18 @@ public class OutBoundServiceImpl implements OutBoundService {
 
     @Autowired
     private OutBoundSaleExtMapper outBoundSaleExtMapper;
+
+    @Autowired
+    private OutBoundSaleShipmentExtMapper outBoundSaleShipmentExtMapper;
+
+    @Autowired
+    private OutBoundSaleShipmentDetailsExtMapper outBoundSaleShipmentDetailsExtMapper;
+
+    @Autowired
+    private WarehousingProductReceiptExtMapper warehousingProductReceiptExtMapper;
+
+    @Autowired
+    private CougnyTransferOrderExtMapper cougnyTransferOrderExtMapper;
 
     /**
      * 分页查询工单
@@ -887,13 +899,101 @@ public class OutBoundServiceImpl implements OutBoundService {
         PageHelper.startPage(queryBillDTO.getPageNum(), queryBillDTO.getPageSize());
         List<OutBoundFillBillTask> queryList = outBoundFillBillTaskExtMapper.findTransferOrder(queryBillDTO);
         PageInfo<OutBoundFillBillTask> pageInfo = new PageInfo<OutBoundFillBillTask>(queryList);
-//        // copy数据
+        // copy数据
         PageInfoVO pageInfoVO = ResultUtil.successPageInfo();
         BeanUtils.copyProperties(pageInfo, pageInfoVO);
         pageInfoVO.setData(pageInfo.getList());
         return pageInfoVO;
     }
 
+    /**
+     * 分页查询销售出库单（出通单）
+     * @return
+     */
+    @Override
+    public ResultVO findShipmentAllPageList(OutBoundSaleShipmentDTO outBoundSaleShipmentDTO) {
+        //分页
+        PageHelper.startPage(outBoundSaleShipmentDTO.getPageNum(),outBoundSaleShipmentDTO.getPageSize());
+        List<OutBoundSaleShipment> queryList = outBoundSaleShipmentExtMapper.findShipmentAllPageList(outBoundSaleShipmentDTO);
+        PageInfo<OutBoundSaleShipment> pageInfo = new PageInfo<OutBoundSaleShipment>(queryList);
+        // copy数据
+        PageInfoVO pageInfoVO = ResultUtil.successPageInfo();
+        BeanUtils.copyProperties(pageInfo, pageInfoVO);
+        pageInfoVO.setData(pageInfo.getList());
+        return pageInfoVO;
+    }
+
+    /**
+     * 销售出库单详情（出通单详情）
+     * @param shipmentNo shipmentDetailsStatus
+     * @return
+     */
+    @Override
+    public ResultVO findShipmentDetailsByShipmentNo(String shipmentNo,String shipmentDetailsStatus) {
+        return ResultUtil.success(outBoundSaleShipmentDetailsExtMapper.findShipmentDetailsByShipmentNo(shipmentNo,shipmentDetailsStatus));
+    }
+
+    /**
+     * 根据成品批号查询信息
+     * @param productCode
+     * @return
+     */
+    @Override
+    public ResultVO findWarehousingProductReceiptByProductCode(String productCode) {
+        return ResultUtil.success(warehousingProductReceiptExtMapper.findWarehousingProductReceiptByProductCode(productCode));
+    }
+
+    /**
+     * 生成调拨单
+     * @param cougnyTransferOrdersDTO
+     * @return
+     */
+    @Override
+    @Transactional
+    public String addTransferOrder(CougnyTransferOrdersDTO cougnyTransferOrdersDTO) {
+        List<AddCougnyTransferOrderDTO> addList = cougnyTransferOrdersDTO.getAddCougnyTransferOrderDTOList();
+        for (AddCougnyTransferOrderDTO cto: addList) {
+            //测试用 插入调入库房
+            cto.setPutInWarehouse("出货仓库");
+            cto.setEstablishDate(new Date());
+            //数量数据类型装换
+            if (!cto.getShipmentNumber().equals("")&&cto.getShipmentNumber()!=null) {
+                Long i = Long.valueOf(cto.getShipmentNumber());
+                cto.setShipmentNumberLong(i);
+            }
+            //添加调拨单
+            int ca = cougnyTransferOrderExtMapper.addTransferOrder(cto);
+            if (ca==0) {
+                return ResultVO.ERROR_MSG;
+            }
+            //增加以发货数量
+            int ou = outBoundSaleShipmentDetailsExtMapper.updateByid(cto);
+            if (ou==0) {
+                return ResultVO.ERROR_MSG;
+            }
+            //判断发货是否完成
+            outBoundSaleShipmentDetailsExtMapper.judgeCompleteOrder(cto.getId());
+        }
+        return ResultVO.SUCCESS_MSG;
+    }
+
+    /**
+     * 查看调拨单
+     * @param
+     * @return
+     */
+    @Override
+    public ResultVO findTransferOrder2(CougnyTransferOrderDTOS cougnyTransferOrderDTOS) {
+        //分页
+        PageHelper.startPage(cougnyTransferOrderDTOS.getPageNum(),cougnyTransferOrderDTOS.getPageSize());
+        List<CougnyTransferOrderDTO> queryList = cougnyTransferOrderExtMapper.findTransferOrder2(cougnyTransferOrderDTOS);
+        PageInfo<CougnyTransferOrderDTO> pageInfo = new PageInfo<CougnyTransferOrderDTO>(queryList);
+        // copy数据
+        PageInfoVO pageInfoVO = ResultUtil.successPageInfo();
+        BeanUtils.copyProperties(pageInfo, pageInfoVO);
+        pageInfoVO.setData(pageInfo.getList());
+        return pageInfoVO;
+    }
 
     /**
      * 查询调拨单详情

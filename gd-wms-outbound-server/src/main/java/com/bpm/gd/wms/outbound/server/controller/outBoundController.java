@@ -1,6 +1,6 @@
 package com.bpm.gd.wms.outbound.server.controller;
 
-import com.bpm.gd.srm.order.client.DdSrmOrderClient;
+import com.bpm.gd.wms.outbound.common.dto.PageDTO;
 import com.bpm.gd.wms.outbound.common.vo.ResultVO;
 import com.bpm.gd.wms.outbound.server.domain.OutBoundFillBillTask;
 import com.bpm.gd.wms.outbound.server.domain.SendOrder;
@@ -29,11 +29,57 @@ import java.util.List;
 public class outBoundController {
 
     @Autowired
-    private DdSrmOrderClient ddSrmOrderClient;
-    @Autowired
     private OutBoundService outBoundService;
 
 
+
+    //从第三方接收数据
+
+
+    @ApiOperation("查看销售出库单（出通单）")
+    @RequestMapping(
+            value = {"/findShipmentAllPageList"},
+            method = {RequestMethod.GET}
+    )
+    public ResultVO findShipmentAllPageList (OutBoundSaleShipmentDTO outBoundSaleShipmentDTO) {
+        return outBoundService.findShipmentAllPageList(outBoundSaleShipmentDTO);
+    }
+
+    @ApiOperation("销售出库单详情（出通单详情）")
+    @RequestMapping(
+            value = {"/findShipmentDetailsByShipmentNo"},
+            method = {RequestMethod.GET}
+    )
+    public ResultVO findShipmentDetailsByShipmentNo (@RequestParam String shipmentNo, String shipmentDetailsStatus) {
+        return outBoundService.findShipmentDetailsByShipmentNo(shipmentNo,shipmentDetailsStatus);
+    }
+
+    @ApiOperation("根据成品批号查询信息")
+    @RequestMapping(
+            value = {"/findWarehousingProductReceiptByProductCode"},
+            method = {RequestMethod.GET}
+    )
+    public ResultVO findWarehousingProductReceiptByProductCode (@RequestParam String productCode) {
+        return outBoundService.findWarehousingProductReceiptByProductCode(productCode);
+    }
+
+    @ApiOperation("查看调拨单")
+    @RequestMapping(
+            value = {"/findTransferOrder2"},
+            method = {RequestMethod.GET}
+    )
+    public ResultVO findTransferOrder2 (CougnyTransferOrderDTOS cougnyTransferOrderDTOS) {
+        return outBoundService.findTransferOrder2(cougnyTransferOrderDTOS);
+    }
+
+    @ApiOperation("生成调拨单")
+    @RequestMapping(
+            value = {"/addTransferOrder"},
+            method = {RequestMethod.POST}
+    )
+    public String addTransferOrder (@RequestBody CougnyTransferOrdersDTO cougnyTransferOrdersDTO) {
+        return outBoundService.addTransferOrder(cougnyTransferOrdersDTO);
+    }
 
     @ApiOperation("查询工单信息")
     @RequestMapping(
@@ -259,7 +305,6 @@ public class outBoundController {
     )
 
     public ResultVO findSaleMatter( @RequestParam String saleId) {
-
         return outBoundService.findSaleMatter(saleId);
     }
 

@@ -1,6 +1,6 @@
 package com.bpm.gd.wms.outbound.server.domain;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
+
 import lombok.Data;
 
 @Data

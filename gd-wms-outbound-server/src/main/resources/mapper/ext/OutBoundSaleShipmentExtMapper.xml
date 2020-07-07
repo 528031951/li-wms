@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.ext.OutBoundSaleShipmentExtMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.OutBoundSaleShipment">
+    <result column="SHIPMENT_NO" jdbcType="VARCHAR" property="shipmentNo" />
+    <result column="SHIPMENT_STATUS" jdbcType="VARCHAR" property="shipmentStatus" />
+    <result column="CUSTOMER_ID" jdbcType="VARCHAR" property="customerId" />
+    <result column="CUSTOMER_NAME" jdbcType="VARCHAR" property="customerName" />
+    <result column="SHIPMENT_TYPE" jdbcType="VARCHAR" property="shipmentType" />
+    <result column="SHIPMENT_REMARKS" jdbcType="VARCHAR" property="shipmentRemarks" />
+    <result column="ESTABLISH_DATE" jdbcType="TIMESTAMP" property="establishDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SHIPMENT_NO, SHIPMENT_STATUS, CUSTOMER_ID, CUSTOMER_NAME, SHIPMENT_TYPE, SHIPMENT_REMARKS, 
+    ESTABLISH_DATE
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundSaleShipmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from OUT_BOUND_SALE_SHIPMENT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundSaleShipmentExample">
+    delete from OUT_BOUND_SALE_SHIPMENT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundSaleShipment">
+    insert into OUT_BOUND_SALE_SHIPMENT (SHIPMENT_NO, SHIPMENT_STATUS, CUSTOMER_ID, 
+      CUSTOMER_NAME, SHIPMENT_TYPE, SHIPMENT_REMARKS, 
+      ESTABLISH_DATE)
+    values (#{shipmentNo,jdbcType=VARCHAR}, #{shipmentStatus,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, 
+      #{customerName,jdbcType=VARCHAR}, #{shipmentType,jdbcType=VARCHAR}, #{shipmentRemarks,jdbcType=VARCHAR}, 
+      #{establishDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundSaleShipment">
+    insert into OUT_BOUND_SALE_SHIPMENT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shipmentNo != null">
+        SHIPMENT_NO,
+      </if>
+      <if test="shipmentStatus != null">
+        SHIPMENT_STATUS,
+      </if>
+      <if test="customerId != null">
+        CUSTOMER_ID,
+      </if>
+      <if test="customerName != null">
+        CUSTOMER_NAME,
+      </if>
+      <if test="shipmentType != null">
+        SHIPMENT_TYPE,
+      </if>
+      <if test="shipmentRemarks != null">
+        SHIPMENT_REMARKS,
+      </if>
+      <if test="establishDate != null">
+        ESTABLISH_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shipmentNo != null">
+        #{shipmentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shipmentStatus != null">
+        #{shipmentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="shipmentType != null">
+        #{shipmentType,jdbcType=VARCHAR},
+      </if>
+      <if test="shipmentRemarks != null">
+        #{shipmentRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="establishDate != null">
+        #{establishDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundSaleShipmentExample" resultType="java.lang.Long">
+    select count(*) from OUT_BOUND_SALE_SHIPMENT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <update id="updateByExampleSelective" parameterType="map">
+    update OUT_BOUND_SALE_SHIPMENT
+    <set>
+      <if test="record.shipmentNo != null">
+        SHIPMENT_NO = #{record.shipmentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shipmentStatus != null">
+        SHIPMENT_STATUS = #{record.shipmentStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerId != null">
+        CUSTOMER_ID = #{record.customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerName != null">
+        CUSTOMER_NAME = #{record.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shipmentType != null">
+        SHIPMENT_TYPE = #{record.shipmentType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shipmentRemarks != null">
+        SHIPMENT_REMARKS = #{record.shipmentRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.establishDate != null">
+        ESTABLISH_DATE = #{record.establishDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update OUT_BOUND_SALE_SHIPMENT
+    set SHIPMENT_NO = #{record.shipmentNo,jdbcType=VARCHAR},
+      SHIPMENT_STATUS = #{record.shipmentStatus,jdbcType=VARCHAR},
+      CUSTOMER_ID = #{record.customerId,jdbcType=VARCHAR},
+      CUSTOMER_NAME = #{record.customerName,jdbcType=VARCHAR},
+      SHIPMENT_TYPE = #{record.shipmentType,jdbcType=VARCHAR},
+      SHIPMENT_REMARKS = #{record.shipmentRemarks,jdbcType=VARCHAR},
+      ESTABLISH_DATE = #{record.establishDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <select id="findShipmentAllPageList" parameterType="com.bpm.gd.wms.outbound.server.dto.OutBoundSaleShipmentDTO" resultType="com.bpm.gd.wms.outbound.server.domain.OutBoundSaleShipment" >
+    SELECT *
+    FROM OUT_BOUND_SALE_SHIPMENT o
+    <where>
+      <if test="shipmentStatus != null and shipmentStatus !=''">
+        o.SHIPMENT_STATUS = #{shipmentStatus}
+      </if>
+    </where>
+  </select>
+
+</mapper>
