@@ -17,6 +17,7 @@
     <result column="CREATOR_ID" jdbcType="NUMERIC" property="creatorId" />
     <result column="UPDATER_ID" jdbcType="NUMERIC" property="updaterId" />
     <result column="PRODUCT_SPECIFICATIONS" jdbcType="VARCHAR" property="productSpecifications" />
+    <result column="CUSTOMER_MATERIAL_NUMBER" jdbcType="VARCHAR" property="customerMaterialNumber" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +80,7 @@
   <sql id="Base_Column_List">
     ID, SHIPMENT_NO, PRODUCT_NAME, PRODUCT_ID, SHIPMENT_NUMBER, PRODUCT_UNIT, STORAGE_LOCATION_NAME, 
     STORAGE_LOCATION_COD, ALREADY_SHIPMENT_NUMBER, SHIPMENT_DETAILS_STATUS, CREATE_TIME, 
-    UPDATE_TIME, CREATOR_ID, UPDATER_ID, PRODUCT_SPECIFICATIONS
+    UPDATE_TIME, CREATOR_ID, UPDATER_ID, PRODUCT_SPECIFICATIONS, CUSTOMER_MATERIAL_NUMBER
   </sql>
   <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundSaleShipmentDetailsExample" resultMap="BaseResultMap">
     select
@@ -114,24 +115,24 @@
   </delete>
   <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundSaleShipmentDetails">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      Oracle
+      select OUT_BOUND_SALE_SHIPMENT_DETAILS_SEQ.CURRVAL from dual
     </selectKey>
     insert into OUT_BOUND_SALE_SHIPMENT_DETAILS (SHIPMENT_NO, PRODUCT_NAME, PRODUCT_ID, 
       SHIPMENT_NUMBER, PRODUCT_UNIT, STORAGE_LOCATION_NAME, 
       STORAGE_LOCATION_COD, ALREADY_SHIPMENT_NUMBER, 
       SHIPMENT_DETAILS_STATUS, CREATE_TIME, UPDATE_TIME, 
-      CREATOR_ID, UPDATER_ID, PRODUCT_SPECIFICATIONS
-      )
+      CREATOR_ID, UPDATER_ID, PRODUCT_SPECIFICATIONS, 
+      CUSTOMER_MATERIAL_NUMBER)
     values (#{shipmentNo,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, 
       #{shipmentNumber,jdbcType=NUMERIC}, #{productUnit,jdbcType=VARCHAR}, #{storageLocationName,jdbcType=VARCHAR}, 
       #{storageLocationCod,jdbcType=VARCHAR}, #{alreadyShipmentNumber,jdbcType=NUMERIC}, 
       #{shipmentDetailsStatus,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{creatorId,jdbcType=NUMERIC}, #{updaterId,jdbcType=NUMERIC}, #{productSpecifications,jdbcType=VARCHAR}
-      )
+      #{creatorId,jdbcType=NUMERIC}, #{updaterId,jdbcType=NUMERIC}, #{productSpecifications,jdbcType=VARCHAR}, 
+      #{customerMaterialNumber,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.OutBoundSaleShipmentDetails">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      Oracle
+      select OUT_BOUND_SALE_SHIPMENT_DETAILS_SEQ.CURRVAL from dual
     </selectKey>
     insert into OUT_BOUND_SALE_SHIPMENT_DETAILS
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -177,6 +178,9 @@
       <if test="productSpecifications != null">
         PRODUCT_SPECIFICATIONS,
       </if>
+      <if test="customerMaterialNumber != null">
+        CUSTOMER_MATERIAL_NUMBER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="shipmentNo != null">
@@ -220,6 +224,9 @@
       </if>
       <if test="productSpecifications != null">
         #{productSpecifications,jdbcType=VARCHAR},
+      </if>
+      <if test="customerMaterialNumber != null">
+        #{customerMaterialNumber,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -277,6 +284,9 @@
       <if test="record.productSpecifications != null">
         PRODUCT_SPECIFICATIONS = #{record.productSpecifications,jdbcType=VARCHAR},
       </if>
+      <if test="record.customerMaterialNumber != null">
+        CUSTOMER_MATERIAL_NUMBER = #{record.customerMaterialNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -298,7 +308,8 @@
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       CREATOR_ID = #{record.creatorId,jdbcType=NUMERIC},
       UPDATER_ID = #{record.updaterId,jdbcType=NUMERIC},
-      PRODUCT_SPECIFICATIONS = #{record.productSpecifications,jdbcType=VARCHAR}
+      PRODUCT_SPECIFICATIONS = #{record.productSpecifications,jdbcType=VARCHAR},
+      CUSTOMER_MATERIAL_NUMBER = #{record.customerMaterialNumber,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -348,6 +359,9 @@
       <if test="productSpecifications != null">
         PRODUCT_SPECIFICATIONS = #{productSpecifications,jdbcType=VARCHAR},
       </if>
+      <if test="customerMaterialNumber != null">
+        CUSTOMER_MATERIAL_NUMBER = #{customerMaterialNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=NUMERIC}
   </update>
@@ -366,7 +380,8 @@
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       CREATOR_ID = #{creatorId,jdbcType=NUMERIC},
       UPDATER_ID = #{updaterId,jdbcType=NUMERIC},
-      PRODUCT_SPECIFICATIONS = #{productSpecifications,jdbcType=VARCHAR}
+      PRODUCT_SPECIFICATIONS = #{productSpecifications,jdbcType=VARCHAR},
+      CUSTOMER_MATERIAL_NUMBER = #{customerMaterialNumber,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=NUMERIC}
   </update>
 </mapper>

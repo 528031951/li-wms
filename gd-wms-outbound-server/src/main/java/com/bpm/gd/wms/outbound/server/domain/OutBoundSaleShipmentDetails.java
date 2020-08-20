@@ -54,7 +54,7 @@ public class OutBoundSaleShipmentDetails {
     private Long alreadyShipmentNumber;
 
     /**
-     * 出货详情状态 1.未完成 2.完成
+     * 出货详情状态 1.未完成 2.已完成
      */
     private String shipmentDetailsStatus;
 

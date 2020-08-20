@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.base.BaseHighLevelRackMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.BaseHighLevelRack">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="STORAGE_LOCATION_COD" jdbcType="VARCHAR" property="storageLocationCod" />
+    <result column="STORAGE_LOCATION_LONG" jdbcType="NUMERIC" property="storageLocationLong" />
+    <result column="STORAGE_LOCATION_WIDE" jdbcType="NUMERIC" property="storageLocationWide" />
+    <result column="STORAGE_LOCATION_HIGH" jdbcType="NUMERIC" property="storageLocationHigh" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CREATOR_ID" jdbcType="NUMERIC" property="creatorId" />
+    <result column="UPDATER_ID" jdbcType="NUMERIC" property="updaterId" />
+    <result column="PEAK_LOAD" jdbcType="NUMERIC" property="peakLoad" />
+    <result column="PURCHASE_ORDER_TYPE" jdbcType="NUMERIC" property="purchaseOrderType" />
+    <result column="THE_HIGHEST_INVENTORY" jdbcType="NUMERIC" property="theHighestInventory" />
+    <result column="MINIMUM_STOCK_QUANTITY" jdbcType="NUMERIC" property="minimumStockQuantity" />
+    <result column="SAFETY_STOCK" jdbcType="NUMERIC" property="safetyStock" />
+    <result column="MATERIAL_NAME" jdbcType="VARCHAR" property="materialName" />
+    <result column="CONGRUENT_RELATIONSHIP" jdbcType="NUMERIC" property="congruentRelationship" />
+    <result column="SUPPLIER_CODE" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="MATERIAL_CODE" jdbcType="VARCHAR" property="materialCode" />
+    <result column="TREE_ID" jdbcType="NUMERIC" property="treeId" />
+    <result column="STORAGE_LOCATION_NO" jdbcType="VARCHAR" property="storageLocationNo" />
+    <result column="SHELVES_TYPE" jdbcType="VARCHAR" property="shelvesType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, STORAGE_LOCATION_COD, STORAGE_LOCATION_LONG, STORAGE_LOCATION_WIDE, STORAGE_LOCATION_HIGH, 
+    CREATE_TIME, UPDATE_TIME, CREATOR_ID, UPDATER_ID, PEAK_LOAD, PURCHASE_ORDER_TYPE, 
+    THE_HIGHEST_INVENTORY, MINIMUM_STOCK_QUANTITY, SAFETY_STOCK, MATERIAL_NAME, CONGRUENT_RELATIONSHIP, 
+    SUPPLIER_CODE, MATERIAL_CODE, TREE_ID, STORAGE_LOCATION_NO, SHELVES_TYPE
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseHighLevelRackExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from BASE_HIGH_LEVEL_RACK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BASE_HIGH_LEVEL_RACK
+    where ID = #{id,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from BASE_HIGH_LEVEL_RACK
+    where ID = #{id,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseHighLevelRackExample">
+    delete from BASE_HIGH_LEVEL_RACK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseHighLevelRack">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select BASE_HIGH_LEVEL_RACK_SEQ.CURRVAL from dual
+    </selectKey>
+    insert into BASE_HIGH_LEVEL_RACK (STORAGE_LOCATION_COD, STORAGE_LOCATION_LONG, 
+      STORAGE_LOCATION_WIDE, STORAGE_LOCATION_HIGH, 
+      CREATE_TIME, UPDATE_TIME, CREATOR_ID, 
+      UPDATER_ID, PEAK_LOAD, PURCHASE_ORDER_TYPE, 
+      THE_HIGHEST_INVENTORY, MINIMUM_STOCK_QUANTITY, 
+      SAFETY_STOCK, MATERIAL_NAME, CONGRUENT_RELATIONSHIP, 
+      SUPPLIER_CODE, MATERIAL_CODE, TREE_ID, 
+      STORAGE_LOCATION_NO, SHELVES_TYPE)
+    values (#{storageLocationCod,jdbcType=VARCHAR}, #{storageLocationLong,jdbcType=NUMERIC}, 
+      #{storageLocationWide,jdbcType=NUMERIC}, #{storageLocationHigh,jdbcType=NUMERIC}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=NUMERIC}, 
+      #{updaterId,jdbcType=NUMERIC}, #{peakLoad,jdbcType=NUMERIC}, #{purchaseOrderType,jdbcType=NUMERIC}, 
+      #{theHighestInventory,jdbcType=NUMERIC}, #{minimumStockQuantity,jdbcType=NUMERIC}, 
+      #{safetyStock,jdbcType=NUMERIC}, #{materialName,jdbcType=VARCHAR}, #{congruentRelationship,jdbcType=NUMERIC}, 
+      #{supplierCode,jdbcType=VARCHAR}, #{materialCode,jdbcType=VARCHAR}, #{treeId,jdbcType=NUMERIC}, 
+      #{storageLocationNo,jdbcType=VARCHAR}, #{shelvesType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseHighLevelRack">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select BASE_HIGH_LEVEL_RACK_SEQ.CURRVAL from dual
+    </selectKey>
+    insert into BASE_HIGH_LEVEL_RACK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="storageLocationCod != null">
+        STORAGE_LOCATION_COD,
+      </if>
+      <if test="storageLocationLong != null">
+        STORAGE_LOCATION_LONG,
+      </if>
+      <if test="storageLocationWide != null">
+        STORAGE_LOCATION_WIDE,
+      </if>
+      <if test="storageLocationHigh != null">
+        STORAGE_LOCATION_HIGH,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID,
+      </if>
+      <if test="updaterId != null">
+        UPDATER_ID,
+      </if>
+      <if test="peakLoad != null">
+        PEAK_LOAD,
+      </if>
+      <if test="purchaseOrderType != null">
+        PURCHASE_ORDER_TYPE,
+      </if>
+      <if test="theHighestInventory != null">
+        THE_HIGHEST_INVENTORY,
+      </if>
+      <if test="minimumStockQuantity != null">
+        MINIMUM_STOCK_QUANTITY,
+      </if>
+      <if test="safetyStock != null">
+        SAFETY_STOCK,
+      </if>
+      <if test="materialName != null">
+        MATERIAL_NAME,
+      </if>
+      <if test="congruentRelationship != null">
+        CONGRUENT_RELATIONSHIP,
+      </if>
+      <if test="supplierCode != null">
+        SUPPLIER_CODE,
+      </if>
+      <if test="materialCode != null">
+        MATERIAL_CODE,
+      </if>
+      <if test="treeId != null">
+        TREE_ID,
+      </if>
+      <if test="storageLocationNo != null">
+        STORAGE_LOCATION_NO,
+      </if>
+      <if test="shelvesType != null">
+        SHELVES_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="storageLocationCod != null">
+        #{storageLocationCod,jdbcType=VARCHAR},
+      </if>
+      <if test="storageLocationLong != null">
+        #{storageLocationLong,jdbcType=NUMERIC},
+      </if>
+      <if test="storageLocationWide != null">
+        #{storageLocationWide,jdbcType=NUMERIC},
+      </if>
+      <if test="storageLocationHigh != null">
+        #{storageLocationHigh,jdbcType=NUMERIC},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="peakLoad != null">
+        #{peakLoad,jdbcType=NUMERIC},
+      </if>
+      <if test="purchaseOrderType != null">
+        #{purchaseOrderType,jdbcType=NUMERIC},
+      </if>
+      <if test="theHighestInventory != null">
+        #{theHighestInventory,jdbcType=NUMERIC},
+      </if>
+      <if test="minimumStockQuantity != null">
+        #{minimumStockQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="safetyStock != null">
+        #{safetyStock,jdbcType=NUMERIC},
+      </if>
+      <if test="materialName != null">
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="congruentRelationship != null">
+        #{congruentRelationship,jdbcType=NUMERIC},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialCode != null">
+        #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="treeId != null">
+        #{treeId,jdbcType=NUMERIC},
+      </if>
+      <if test="storageLocationNo != null">
+        #{storageLocationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shelvesType != null">
+        #{shelvesType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseHighLevelRackExample" resultType="java.lang.Long">
+    select count(*) from BASE_HIGH_LEVEL_RACK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update BASE_HIGH_LEVEL_RACK
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=NUMERIC},
+      </if>
+      <if test="record.storageLocationCod != null">
+        STORAGE_LOCATION_COD = #{record.storageLocationCod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storageLocationLong != null">
+        STORAGE_LOCATION_LONG = #{record.storageLocationLong,jdbcType=NUMERIC},
+      </if>
+      <if test="record.storageLocationWide != null">
+        STORAGE_LOCATION_WIDE = #{record.storageLocationWide,jdbcType=NUMERIC},
+      </if>
+      <if test="record.storageLocationHigh != null">
+        STORAGE_LOCATION_HIGH = #{record.storageLocationHigh,jdbcType=NUMERIC},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creatorId != null">
+        CREATOR_ID = #{record.creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.updaterId != null">
+        UPDATER_ID = #{record.updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.peakLoad != null">
+        PEAK_LOAD = #{record.peakLoad,jdbcType=NUMERIC},
+      </if>
+      <if test="record.purchaseOrderType != null">
+        PURCHASE_ORDER_TYPE = #{record.purchaseOrderType,jdbcType=NUMERIC},
+      </if>
+      <if test="record.theHighestInventory != null">
+        THE_HIGHEST_INVENTORY = #{record.theHighestInventory,jdbcType=NUMERIC},
+      </if>
+      <if test="record.minimumStockQuantity != null">
+        MINIMUM_STOCK_QUANTITY = #{record.minimumStockQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="record.safetyStock != null">
+        SAFETY_STOCK = #{record.safetyStock,jdbcType=NUMERIC},
+      </if>
+      <if test="record.materialName != null">
+        MATERIAL_NAME = #{record.materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.congruentRelationship != null">
+        CONGRUENT_RELATIONSHIP = #{record.congruentRelationship,jdbcType=NUMERIC},
+      </if>
+      <if test="record.supplierCode != null">
+        SUPPLIER_CODE = #{record.supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialCode != null">
+        MATERIAL_CODE = #{record.materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.treeId != null">
+        TREE_ID = #{record.treeId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.storageLocationNo != null">
+        STORAGE_LOCATION_NO = #{record.storageLocationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shelvesType != null">
+        SHELVES_TYPE = #{record.shelvesType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update BASE_HIGH_LEVEL_RACK
+    set ID = #{record.id,jdbcType=NUMERIC},
+      STORAGE_LOCATION_COD = #{record.storageLocationCod,jdbcType=VARCHAR},
+      STORAGE_LOCATION_LONG = #{record.storageLocationLong,jdbcType=NUMERIC},
+      STORAGE_LOCATION_WIDE = #{record.storageLocationWide,jdbcType=NUMERIC},
+      STORAGE_LOCATION_HIGH = #{record.storageLocationHigh,jdbcType=NUMERIC},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      CREATOR_ID = #{record.creatorId,jdbcType=NUMERIC},
+      UPDATER_ID = #{record.updaterId,jdbcType=NUMERIC},
+      PEAK_LOAD = #{record.peakLoad,jdbcType=NUMERIC},
+      PURCHASE_ORDER_TYPE = #{record.purchaseOrderType,jdbcType=NUMERIC},
+      THE_HIGHEST_INVENTORY = #{record.theHighestInventory,jdbcType=NUMERIC},
+      MINIMUM_STOCK_QUANTITY = #{record.minimumStockQuantity,jdbcType=NUMERIC},
+      SAFETY_STOCK = #{record.safetyStock,jdbcType=NUMERIC},
+      MATERIAL_NAME = #{record.materialName,jdbcType=VARCHAR},
+      CONGRUENT_RELATIONSHIP = #{record.congruentRelationship,jdbcType=NUMERIC},
+      SUPPLIER_CODE = #{record.supplierCode,jdbcType=VARCHAR},
+      MATERIAL_CODE = #{record.materialCode,jdbcType=VARCHAR},
+      TREE_ID = #{record.treeId,jdbcType=NUMERIC},
+      STORAGE_LOCATION_NO = #{record.storageLocationNo,jdbcType=VARCHAR},
+      SHELVES_TYPE = #{record.shelvesType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseHighLevelRack">
+    update BASE_HIGH_LEVEL_RACK
+    <set>
+      <if test="storageLocationCod != null">
+        STORAGE_LOCATION_COD = #{storageLocationCod,jdbcType=VARCHAR},
+      </if>
+      <if test="storageLocationLong != null">
+        STORAGE_LOCATION_LONG = #{storageLocationLong,jdbcType=NUMERIC},
+      </if>
+      <if test="storageLocationWide != null">
+        STORAGE_LOCATION_WIDE = #{storageLocationWide,jdbcType=NUMERIC},
+      </if>
+      <if test="storageLocationHigh != null">
+        STORAGE_LOCATION_HIGH = #{storageLocationHigh,jdbcType=NUMERIC},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID = #{creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="updaterId != null">
+        UPDATER_ID = #{updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="peakLoad != null">
+        PEAK_LOAD = #{peakLoad,jdbcType=NUMERIC},
+      </if>
+      <if test="purchaseOrderType != null">
+        PURCHASE_ORDER_TYPE = #{purchaseOrderType,jdbcType=NUMERIC},
+      </if>
+      <if test="theHighestInventory != null">
+        THE_HIGHEST_INVENTORY = #{theHighestInventory,jdbcType=NUMERIC},
+      </if>
+      <if test="minimumStockQuantity != null">
+        MINIMUM_STOCK_QUANTITY = #{minimumStockQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="safetyStock != null">
+        SAFETY_STOCK = #{safetyStock,jdbcType=NUMERIC},
+      </if>
+      <if test="materialName != null">
+        MATERIAL_NAME = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="congruentRelationship != null">
+        CONGRUENT_RELATIONSHIP = #{congruentRelationship,jdbcType=NUMERIC},
+      </if>
+      <if test="supplierCode != null">
+        SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialCode != null">
+        MATERIAL_CODE = #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="treeId != null">
+        TREE_ID = #{treeId,jdbcType=NUMERIC},
+      </if>
+      <if test="storageLocationNo != null">
+        STORAGE_LOCATION_NO = #{storageLocationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shelvesType != null">
+        SHELVES_TYPE = #{shelvesType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseHighLevelRack">
+    update BASE_HIGH_LEVEL_RACK
+    set STORAGE_LOCATION_COD = #{storageLocationCod,jdbcType=VARCHAR},
+      STORAGE_LOCATION_LONG = #{storageLocationLong,jdbcType=NUMERIC},
+      STORAGE_LOCATION_WIDE = #{storageLocationWide,jdbcType=NUMERIC},
+      STORAGE_LOCATION_HIGH = #{storageLocationHigh,jdbcType=NUMERIC},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CREATOR_ID = #{creatorId,jdbcType=NUMERIC},
+      UPDATER_ID = #{updaterId,jdbcType=NUMERIC},
+      PEAK_LOAD = #{peakLoad,jdbcType=NUMERIC},
+      PURCHASE_ORDER_TYPE = #{purchaseOrderType,jdbcType=NUMERIC},
+      THE_HIGHEST_INVENTORY = #{theHighestInventory,jdbcType=NUMERIC},
+      MINIMUM_STOCK_QUANTITY = #{minimumStockQuantity,jdbcType=NUMERIC},
+      SAFETY_STOCK = #{safetyStock,jdbcType=NUMERIC},
+      MATERIAL_NAME = #{materialName,jdbcType=VARCHAR},
+      CONGRUENT_RELATIONSHIP = #{congruentRelationship,jdbcType=NUMERIC},
+      SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      MATERIAL_CODE = #{materialCode,jdbcType=VARCHAR},
+      TREE_ID = #{treeId,jdbcType=NUMERIC},
+      STORAGE_LOCATION_NO = #{storageLocationNo,jdbcType=VARCHAR},
+      SHELVES_TYPE = #{shelvesType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+</mapper>

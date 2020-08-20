@@ -18,6 +18,7 @@ public interface OutBoundSaleShipmentDetailsExtMapper {
     int insert(OutBoundSaleShipmentDetails record);
 
     int insertSelective(OutBoundSaleShipmentDetails record);
+    int insertList(List<OutBoundSaleShipmentDetailsDTO> list);
 
     List<OutBoundSaleShipmentDetails> selectByExample(OutBoundSaleShipmentDetailsExample example);
 

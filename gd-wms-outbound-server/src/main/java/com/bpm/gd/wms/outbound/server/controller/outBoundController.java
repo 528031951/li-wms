@@ -31,10 +31,19 @@ public class outBoundController {
     @Autowired
     private OutBoundService outBoundService;
 
-
-
     //从第三方接收数据
 
+    @ApiOperation(value = "查看销售出库单的所有数据，T100用")
+    @PostMapping("/findShipment")
+    public ResultVO findShipment(){
+        return outBoundService.findShipment();
+    }
+
+    @ApiOperation(value = "根据出通单号查询指定出通单的数据，T100用")
+    @PostMapping("/findShipmentByOrderCode")
+    public ResultVO findShipmentByOrderCode(String shipmentOrderCode){
+        return outBoundService.findShipmentByOrderCode(shipmentOrderCode);
+    }
 
     @ApiOperation("查看销售出库单（出通单）")
     @RequestMapping(
@@ -379,5 +388,20 @@ public class outBoundController {
     public ResultVO findTransferInfo(@RequestParam String transferId) {
         return outBoundService.findTransferInfo(transferId);
     }
-
+    @ApiOperation("销售出库调用第三方接口")
+    @RequestMapping(
+            value = {"/dockingInterface"},
+            method = {RequestMethod.GET}
+    )
+    public ResultVO dockingInterface() {
+        return outBoundService.dockingAddInfo();
+    }
+    @ApiOperation("销售出库详情调用第三方接口")
+    @RequestMapping(
+            value = {"/dockingDetails"},
+            method = {RequestMethod.GET}
+    )
+    public ResultVO dockingDetails() {
+        return outBoundService.dockingAddDetailsInfo();
+    }
 }

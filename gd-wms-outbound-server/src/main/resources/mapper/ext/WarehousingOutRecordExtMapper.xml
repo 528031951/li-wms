@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.ext.WarehousingOutRecordExtMapper">
+
+    <select id="selectUserIdSample" resultType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecord">
+    select
+    ID,
+    MATERIAL_NO,
+    MATERIAL_NAME,
+    SUPPLIER_NO,
+    SUPPLIER_NAME,
+    WAREHOUSING_OUT_TYPE,
+    STORAGE_NO,BOX_NO,
+    COUNT,
+    ORDER_NO
+    from
+    WAREHOUSING_OUT_RECORD where OPERATOR_ID=#{userId,jdbcType=INTEGER} and STATUS='0' and WAREHOUSING_OUT_TYPE='0'
+    </select>
+
+    <select id="selectDepotToCaseByMatterCode" resultType="com.bpm.gd.wms.outbound.server.vo.SamplePreparationVo">
+        select
+        a.id as record_id,
+        a.MATERIAL_NO,
+        a.MATERIAL_NAME,
+        b.id as to_matter_id,
+        b.ALL_NUMBER,
+        c.id as to_case_id,
+        c.REAL_NUMBER
+        from
+        warehousing_record a
+        inner join base_depot_to_matter b on a.MATERIAL_NO=b.MATTER_ID
+        inner join base_depot_to_case c on b.DEPOT_ID=c.DEPOT_ID
+        where a.MATERIAL_NO=#{matterCode,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectWarehousingRecord" resultType="com.bpm.gd.wms.outbound.server.domain.WarehousingRecord">
+        select ID,MATERIAL_NO,MATERIAL_NAME,SUPPLIER_NAME,SUPPLIER_NO,STORAGE_NO,UNIT from WAREHOUSING_RECORD where MATERIAL_NO=#{materialNo,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectWarehousingOutRecordByUserId" resultType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecord">
+        select ORDER_NO from
+        warehousing_out_record a
+        where
+        ID=(
+        select
+        min(ID)
+        from
+        warehousing_out_record
+        where
+        ORDER_NO=a.ORDER_NO
+        and OPERATOR_ID=#{userId,jdbcType=INTEGER}
+        and WAREHOUSING_OUT_TYPE='0'
+        and STATUS='0')
+    </select>
+
+    <select id="selectUserIdAndCode" resultType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecord">
+        select
+        ID,
+        MATERIAL_NO,
+        MATERIAL_NAME,
+        SUPPLIER_NO,
+        SUPPLIER_NAME,
+        WAREHOUSING_OUT_TYPE,
+        STORAGE_NO,
+        WAREHOUSING_OUT_TIME,
+        BOX_NO,
+        COUNT,
+        UNIT,
+        ORDER_NO,
+        OPERATOR_ID,
+        STATUS,
+        AREA_CODE
+        from
+        WAREHOUSING_OUT_RECORD a
+        where
+        a.ORDER_NO=#{workOrderCode,jdbcType=VARCHAR}
+        and a.OPERATOR_ID=#{userId,jdbcType=INTEGER}
+        and a.WAREHOUSING_OUT_TYPE='0'
+        and a.STATUS='0'
+    </select>
+
+    <update id="updateWarehousingOutRecordByUserId">
+        update
+        warehousing_out_record t
+        set t.status = 1
+        where t.operator_id =#{userId,jdbcType=INTEGER}
+        and t.WAREHOUSING_OUT_TYPE='0'
+        and t.STATUS='0'
+    </update>
+
+    <select id="selectAll" resultType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecord">
+        select
+            ID,
+            MATERIAL_NO,
+            MATERIAL_NAME,
+            SUPPLIER_NO,
+            SUPPLIER_NAME,
+            WAREHOUSING_OUT_TYPE,
+            STORAGE_NO,
+            WAREHOUSING_OUT_TIME,
+            BOX_NO,
+            COUNT,
+            UNIT,
+            ORDER_NO,
+            OPERATOR_ID,
+            STATUS,
+            AREA_CODE
+        from
+        WAREHOUSING_OUT_RECORD
+        where
+        WAREHOUSING_OUT_TYPE='0'
+    </select>
+
+
+</mapper>

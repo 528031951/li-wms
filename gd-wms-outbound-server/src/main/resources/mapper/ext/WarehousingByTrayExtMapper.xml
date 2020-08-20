@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.ext.WarehousingByTrayExtMapper">
+    <update id="updateCountByBoxCode">
+        update WAREHOUSING_BY_TRAY
+        set TRAY_BOX_QUANTITY = TRAY_BOX_QUANTITY - 1,
+        TRAY_QUANTITY = TRAY_QUANTITY - #{quantity,jdbcType=NUMERIC}
+        where BARCODE=#{barcode,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectInfoByTrayCode" resultType="com.bpm.gd.wms.outbound.server.domain.WarehousingByTray">
+        select * from WAREHOUSING_BY_TRAY where BARCODE=#{trayNo,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByTrayNo" resultType="java.lang.Integer">
+        select count(*) from WAREHOUSING_BY_TRAY where BARCODE=#{trayNo,jdbcType=VARCHAR}
+    </select>
+</mapper>

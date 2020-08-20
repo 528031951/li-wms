@@ -395,5 +395,21 @@
       AND O.SHIPMENT_DETAILS_STATUS=#{shipmentDetailsStatus}
     </if>
   </select>
+<insert id="insertList" parameterType="java.util.List">
+   insert into OUT_BOUND_SALE_SHIPMENT_DETAILS (SHIPMENT_NO, PRODUCT_NAME, PRODUCT_ID,
+      SHIPMENT_NUMBER, PRODUCT_UNIT, STORAGE_LOCATION_NAME,
+      STORAGE_LOCATION_COD, ALREADY_SHIPMENT_NUMBER,
+      SHIPMENT_DETAILS_STATUS, CREATE_TIME, UPDATE_TIME,
+      CREATOR_ID, UPDATER_ID, PRODUCT_SPECIFICATIONS
+      )
+    values
+  <foreach collection="list" index="index" separator="," item="item">
+    (#{item.shipmentNo},#{item.productName},#{item.productId},
+    #{item.shipmentNumber},#{item.productUnit},#{item.storageLocationName},
+    #{item.storageLocationCod}),#{item.alreadyShipmentNumber},#{item.shipmentDetailsStatus},
+    #{item.createTime}),#{item.updateTime},#{item.creatorId},
+    #{item.updaterId}),#{item.productSpecifications}
+  </foreach>
 
+</insert>
 </mapper>

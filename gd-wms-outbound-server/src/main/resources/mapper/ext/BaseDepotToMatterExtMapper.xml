@@ -274,6 +274,12 @@ VALUES
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+    <select id="selectDepotIdBySupplierCodeAndMatterId" resultType="java.lang.String">
+      select h.storage_location_cod from base_high_level_rack h where h.supplier_code = #{supplierCode,jdbcType=VARCHAR} and h.material_code = #{matterId,jdbcType=VARCHAR}
+    </select>
+  <select id="selectByDepotId" resultType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToMatter">
+        select t.* from BASE_DEPOT_TO_MATTER t where t.depot_id = #{depotId,jdbcType=VARCHAR} and t.matter_id=#{materialNo,jdbcType=VARCHAR}
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update BASE_DEPOT_TO_MATTER
     <set>
@@ -341,5 +347,8 @@ VALUES
       IN_USE_NUMBER = #{inUseNumber,jdbcType=NUMERIC},
       OUT_USE_NUMBER = #{outUseNumber,jdbcType=NUMERIC}
     where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateCount">
+    update BASE_DEPOT_TO_MATTER set ALL_NUMBER=ALL_NUMBER - #{trayQuantity,jdbcType=NUMERIC} where MATTER_ID=#{productCode}
   </update>
 </mapper>

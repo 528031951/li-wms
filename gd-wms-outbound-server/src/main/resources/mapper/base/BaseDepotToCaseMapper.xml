@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.base.BaseDepotToCaseMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.BaseDepotToCase">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="DEPOT_ID" jdbcType="VARCHAR" property="depotId" />
+    <result column="MATTER_ID" jdbcType="VARCHAR" property="matterId" />
+    <result column="CASE_NO" jdbcType="VARCHAR" property="caseNo" />
+    <result column="MAX_NUMBER" jdbcType="NUMERIC" property="maxNumber" />
+    <result column="REAL_NUMBER" jdbcType="NUMERIC" property="realNumber" />
+    <result column="PRINT_TIME" jdbcType="TIMESTAMP" property="printTime" />
+    <result column="IN_USE_NUMBER" jdbcType="NUMERIC" property="inUseNumber" />
+    <result column="FREE_NUMBER" jdbcType="NUMERIC" property="freeNumber" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="MIN_PACKAGE_NUMBER" jdbcType="NUMERIC" property="minPackageNumber" />
+    <result column="PRODUCT" jdbcType="NUMERIC" property="product" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, DEPOT_ID, MATTER_ID, CASE_NO, MAX_NUMBER, REAL_NUMBER, PRINT_TIME, IN_USE_NUMBER, 
+    FREE_NUMBER, STATUS, MIN_PACKAGE_NUMBER, PRODUCT
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToCaseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from BASE_DEPOT_TO_CASE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BASE_DEPOT_TO_CASE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from BASE_DEPOT_TO_CASE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToCaseExample">
+    delete from BASE_DEPOT_TO_CASE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToCase">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      select BASE_DEPOT_TO_CASE_SEQ.CURRVAL from dual
+    </selectKey>
+    insert into BASE_DEPOT_TO_CASE (DEPOT_ID, MATTER_ID, CASE_NO, 
+      MAX_NUMBER, REAL_NUMBER, PRINT_TIME, 
+      IN_USE_NUMBER, FREE_NUMBER, STATUS, 
+      MIN_PACKAGE_NUMBER, PRODUCT)
+    values (#{depotId,jdbcType=VARCHAR}, #{matterId,jdbcType=VARCHAR}, #{caseNo,jdbcType=VARCHAR}, 
+      #{maxNumber,jdbcType=NUMERIC}, #{realNumber,jdbcType=NUMERIC}, #{printTime,jdbcType=TIMESTAMP}, 
+      #{inUseNumber,jdbcType=NUMERIC}, #{freeNumber,jdbcType=NUMERIC}, #{status,jdbcType=VARCHAR}, 
+      #{minPackageNumber,jdbcType=NUMERIC}, #{product,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToCase">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.String">
+      select BASE_DEPOT_TO_CASE_SEQ.CURRVAL from dual
+    </selectKey>
+    insert into BASE_DEPOT_TO_CASE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="depotId != null">
+        DEPOT_ID,
+      </if>
+      <if test="matterId != null">
+        MATTER_ID,
+      </if>
+      <if test="caseNo != null">
+        CASE_NO,
+      </if>
+      <if test="maxNumber != null">
+        MAX_NUMBER,
+      </if>
+      <if test="realNumber != null">
+        REAL_NUMBER,
+      </if>
+      <if test="printTime != null">
+        PRINT_TIME,
+      </if>
+      <if test="inUseNumber != null">
+        IN_USE_NUMBER,
+      </if>
+      <if test="freeNumber != null">
+        FREE_NUMBER,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="minPackageNumber != null">
+        MIN_PACKAGE_NUMBER,
+      </if>
+      <if test="product != null">
+        PRODUCT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="depotId != null">
+        #{depotId,jdbcType=VARCHAR},
+      </if>
+      <if test="matterId != null">
+        #{matterId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null">
+        #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="maxNumber != null">
+        #{maxNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="realNumber != null">
+        #{realNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="printTime != null">
+        #{printTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inUseNumber != null">
+        #{inUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="freeNumber != null">
+        #{freeNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="minPackageNumber != null">
+        #{minPackageNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="product != null">
+        #{product,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToCaseExample" resultType="java.lang.Long">
+    select count(*) from BASE_DEPOT_TO_CASE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="selectByCaseNo" resultType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToCase">
+      select * from (select * from BASE_DEPOT_TO_CASE where CASE_NO = (select distinct m.BOX_NO from warehousing_receipt_details_pack m where m.PACK_NO = #{caseNo,jdbcType=VARCHAR}))
+    where rownum = 1
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update BASE_DEPOT_TO_CASE
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.depotId != null">
+        DEPOT_ID = #{record.depotId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matterId != null">
+        MATTER_ID = #{record.matterId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseNo != null">
+        CASE_NO = #{record.caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxNumber != null">
+        MAX_NUMBER = #{record.maxNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.realNumber != null">
+        REAL_NUMBER = #{record.realNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.printTime != null">
+        PRINT_TIME = #{record.printTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.inUseNumber != null">
+        IN_USE_NUMBER = #{record.inUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.freeNumber != null">
+        FREE_NUMBER = #{record.freeNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.minPackageNumber != null">
+        MIN_PACKAGE_NUMBER = #{record.minPackageNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.product != null">
+        PRODUCT = #{record.product,jdbcType=NUMERIC},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update BASE_DEPOT_TO_CASE
+    set ID = #{record.id,jdbcType=VARCHAR},
+      DEPOT_ID = #{record.depotId,jdbcType=VARCHAR},
+      MATTER_ID = #{record.matterId,jdbcType=VARCHAR},
+      CASE_NO = #{record.caseNo,jdbcType=VARCHAR},
+      MAX_NUMBER = #{record.maxNumber,jdbcType=NUMERIC},
+      REAL_NUMBER = #{record.realNumber,jdbcType=NUMERIC},
+      PRINT_TIME = #{record.printTime,jdbcType=TIMESTAMP},
+      IN_USE_NUMBER = #{record.inUseNumber,jdbcType=NUMERIC},
+      FREE_NUMBER = #{record.freeNumber,jdbcType=NUMERIC},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      MIN_PACKAGE_NUMBER = #{record.minPackageNumber,jdbcType=NUMERIC},
+      PRODUCT = #{record.product,jdbcType=NUMERIC}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToCase">
+    update BASE_DEPOT_TO_CASE
+    <set>
+      <if test="depotId != null">
+        DEPOT_ID = #{depotId,jdbcType=VARCHAR},
+      </if>
+      <if test="matterId != null">
+        MATTER_ID = #{matterId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseNo != null">
+        CASE_NO = #{caseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="maxNumber != null">
+        MAX_NUMBER = #{maxNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="realNumber != null">
+        REAL_NUMBER = #{realNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="printTime != null">
+        PRINT_TIME = #{printTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inUseNumber != null">
+        IN_USE_NUMBER = #{inUseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="freeNumber != null">
+        FREE_NUMBER = #{freeNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="minPackageNumber != null">
+        MIN_PACKAGE_NUMBER = #{minPackageNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="product != null">
+        PRODUCT = #{product,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseDepotToCase">
+    update BASE_DEPOT_TO_CASE
+    set DEPOT_ID = #{depotId,jdbcType=VARCHAR},
+      MATTER_ID = #{matterId,jdbcType=VARCHAR},
+      CASE_NO = #{caseNo,jdbcType=VARCHAR},
+      MAX_NUMBER = #{maxNumber,jdbcType=NUMERIC},
+      REAL_NUMBER = #{realNumber,jdbcType=NUMERIC},
+      PRINT_TIME = #{printTime,jdbcType=TIMESTAMP},
+      IN_USE_NUMBER = #{inUseNumber,jdbcType=NUMERIC},
+      FREE_NUMBER = #{freeNumber,jdbcType=NUMERIC},
+      STATUS = #{status,jdbcType=VARCHAR},
+      MIN_PACKAGE_NUMBER = #{minPackageNumber,jdbcType=NUMERIC},
+      PRODUCT = #{product,jdbcType=NUMERIC}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateRealNumberByCaseNo">
+    update BASE_DEPOT_TO_CASE set REAL_NUMBER = #{realNumber,jdbcType=NUMERIC} where
+CASE_NO = (select distinct m.BOX_NO from warehousing_receipt_details_pack m where m.PACK_NO = #{caseNo,jdbcType=VARCHAR})
+  </update>
+</mapper>

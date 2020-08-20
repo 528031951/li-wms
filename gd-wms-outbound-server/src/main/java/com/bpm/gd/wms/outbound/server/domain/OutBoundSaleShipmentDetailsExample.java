@@ -1084,6 +1084,76 @@ public class OutBoundSaleShipmentDetailsExample {
             addCriterion("PRODUCT_SPECIFICATIONS not between", value1, value2, "productSpecifications");
             return (Criteria) this;
         }
+
+        public Criteria andCustomerMaterialNumberIsNull() {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberIsNotNull() {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberEqualTo(String value) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER =", value, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberNotEqualTo(String value) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER <>", value, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberGreaterThan(String value) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER >", value, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberGreaterThanOrEqualTo(String value) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER >=", value, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberLessThan(String value) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER <", value, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberLessThanOrEqualTo(String value) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER <=", value, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberLike(String value) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER like", value, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberNotLike(String value) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER not like", value, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberIn(List<String> values) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER in", values, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberNotIn(List<String> values) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER not in", values, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberBetween(String value1, String value2) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER between", value1, value2, "customerMaterialNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andCustomerMaterialNumberNotBetween(String value1, String value2) {
+            addCriterion("CUSTOMER_MATERIAL_NUMBER not between", value1, value2, "customerMaterialNumber");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -4,6 +4,7 @@ import com.bpm.gd.wms.outbound.server.domain.*;
 import com.bpm.gd.wms.outbound.server.dto.QueryProductDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -56,4 +57,9 @@ public interface BaseDepotToMatterExtMapper {
     int updateMatterInfoSL(OutBoundFillBillTask outBoundFillBillTask);
 
     Object updateCaseInfoSL(OutBoundFillBillTask outBoundFillBillTask);
-}
+
+    void updateCount(@Param("trayQuantity") BigDecimal trayQuantity, @Param("productCode") String productCode);
+
+    List<String> selectDepotIdBySupplierCodeAndMatterId(@Param("supplierCode")String supplierCode,@Param("matterId")String matterId);
+
+    BaseDepotToMatter selectByDepotId(@Param("depotId") String depotId,@Param("materialNo") String materialNo);}

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.base.WorkOrderMaterialSupplementDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplementDetails">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="WORK_ORDER_CODE" jdbcType="VARCHAR" property="workOrderCode" />
+    <result column="MATERIEL_CODE" jdbcType="VARCHAR" property="materielCode" />
+    <result column="MATERIEL_BATCH_CODE" jdbcType="VARCHAR" property="materielBatchCode" />
+    <result column="NEED_NUMBER" jdbcType="NUMERIC" property="needNumber" />
+    <result column="SEND_NUMBER" jdbcType="NUMERIC" property="sendNumber" />
+    <result column="WASTE_TYPE" jdbcType="NUMERIC" property="wasteType" />
+    <result column="MATERIEL_UNIT" jdbcType="VARCHAR" property="materielUnit" />
+    <result column="EIGENVALUE" jdbcType="VARCHAR" property="eigenvalue" />
+    <result column="PRODUCT_CODE" jdbcType="VARCHAR" property="productCode" />
+    <result column="STATUS" jdbcType="NUMERIC" property="status" />
+    <result column="SUPPLEMENT_CODE" jdbcType="VARCHAR" property="supplementCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, WORK_ORDER_CODE, MATERIEL_CODE, MATERIEL_BATCH_CODE, NEED_NUMBER, SEND_NUMBER, 
+    WASTE_TYPE, MATERIEL_UNIT, EIGENVALUE, PRODUCT_CODE, STATUS, SUPPLEMENT_CODE
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplementDetailsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS
+    where ID = #{id,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS
+    where ID = #{id,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplementDetailsExample">
+    delete from WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplementDetails">
+    insert into WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS (ID, WORK_ORDER_CODE, MATERIEL_CODE, 
+      MATERIEL_BATCH_CODE, NEED_NUMBER, SEND_NUMBER, 
+      WASTE_TYPE, MATERIEL_UNIT, EIGENVALUE, 
+      PRODUCT_CODE, STATUS, SUPPLEMENT_CODE
+      )
+    values (#{id,jdbcType=NUMERIC}, #{workOrderCode,jdbcType=VARCHAR}, #{materielCode,jdbcType=VARCHAR}, 
+      #{materielBatchCode,jdbcType=VARCHAR}, #{needNumber,jdbcType=NUMERIC}, #{sendNumber,jdbcType=NUMERIC}, 
+      #{wasteType,jdbcType=NUMERIC}, #{materielUnit,jdbcType=VARCHAR}, #{eigenvalue,jdbcType=VARCHAR}, 
+      #{productCode,jdbcType=VARCHAR}, #{status,jdbcType=NUMERIC}, #{supplementCode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplementDetails">
+    insert into WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="workOrderCode != null">
+        WORK_ORDER_CODE,
+      </if>
+      <if test="materielCode != null">
+        MATERIEL_CODE,
+      </if>
+      <if test="materielBatchCode != null">
+        MATERIEL_BATCH_CODE,
+      </if>
+      <if test="needNumber != null">
+        NEED_NUMBER,
+      </if>
+      <if test="sendNumber != null">
+        SEND_NUMBER,
+      </if>
+      <if test="wasteType != null">
+        WASTE_TYPE,
+      </if>
+      <if test="materielUnit != null">
+        MATERIEL_UNIT,
+      </if>
+      <if test="eigenvalue != null">
+        EIGENVALUE,
+      </if>
+      <if test="productCode != null">
+        PRODUCT_CODE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="supplementCode != null">
+        SUPPLEMENT_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=NUMERIC},
+      </if>
+      <if test="workOrderCode != null">
+        #{workOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materielCode != null">
+        #{materielCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materielBatchCode != null">
+        #{materielBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="needNumber != null">
+        #{needNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="sendNumber != null">
+        #{sendNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="wasteType != null">
+        #{wasteType,jdbcType=NUMERIC},
+      </if>
+      <if test="materielUnit != null">
+        #{materielUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="eigenvalue != null">
+        #{eigenvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null">
+        #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=NUMERIC},
+      </if>
+      <if test="supplementCode != null">
+        #{supplementCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplementDetailsExample" resultType="java.lang.Long">
+    select count(*) from WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="selectBySupplementCode"
+            resultType="com.bpm.gd.wms.outbound.server.vo.WorkOrderMaterialSupplementDetailsVO">
+      select t.*,g.material_no as materielName from Work_Order_Material_Supplement_Details t,hv_pm_work_order p,hv_gd_work_bom g
+      where t.status = 0 and p.work_order_code = t.work_order_code and g.material_item_no = t.materiel_code
+      and t.supplement_code = #{supplementCode,jdbcType=VARCHAR}
+    </select>
+  <select id="selectBySupplementCodeAndMaterialCode"
+          resultType="com.bpm.gd.wms.outbound.server.vo.WorkOrderMaterialSupplementDetailsVO">
+    select t.*,g.material_no as materielName from Work_Order_Material_Supplement_Details t,hv_pm_work_order p,hv_gd_work_bom g
+      where p.work_order_code = t.work_order_code and g.material_item_no = t.materiel_code
+      and t.supplement_code = #{supplementCode,jdbcType=VARCHAR} and t.MATERIEL_CODE = #{materailCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectFinishedBySupplementCode"
+          resultType="com.bpm.gd.wms.outbound.server.vo.WorkOrderMaterialSupplementDetailsVO">
+    select t.*,g.material_no as materielName from Work_Order_Material_Supplement_Details t,hv_pm_work_order p,hv_gd_work_bom g
+      where t.status = 1 and p.work_order_code = t.work_order_code and g.material_item_no = t.materiel_code
+      and t.supplement_code = #{supplementCode,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectNotFinishedCountByWorkOrderCode" resultType="java.lang.Integer">
+    select count(*) from Work_Order_Material_Supplement_Details where status in (0,1) and WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR}
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=NUMERIC},
+      </if>
+      <if test="record.workOrderCode != null">
+        WORK_ORDER_CODE = #{record.workOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materielCode != null">
+        MATERIEL_CODE = #{record.materielCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materielBatchCode != null">
+        MATERIEL_BATCH_CODE = #{record.materielBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.needNumber != null">
+        NEED_NUMBER = #{record.needNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.sendNumber != null">
+        SEND_NUMBER = #{record.sendNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.wasteType != null">
+        WASTE_TYPE = #{record.wasteType,jdbcType=NUMERIC},
+      </if>
+      <if test="record.materielUnit != null">
+        MATERIEL_UNIT = #{record.materielUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eigenvalue != null">
+        EIGENVALUE = #{record.eigenvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productCode != null">
+        PRODUCT_CODE = #{record.productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=NUMERIC},
+      </if>
+      <if test="record.supplementCode != null">
+        SUPPLEMENT_CODE = #{record.supplementCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS
+    set ID = #{record.id,jdbcType=NUMERIC},
+      WORK_ORDER_CODE = #{record.workOrderCode,jdbcType=VARCHAR},
+      MATERIEL_CODE = #{record.materielCode,jdbcType=VARCHAR},
+      MATERIEL_BATCH_CODE = #{record.materielBatchCode,jdbcType=VARCHAR},
+      NEED_NUMBER = #{record.needNumber,jdbcType=NUMERIC},
+      SEND_NUMBER = #{record.sendNumber,jdbcType=NUMERIC},
+      WASTE_TYPE = #{record.wasteType,jdbcType=NUMERIC},
+      MATERIEL_UNIT = #{record.materielUnit,jdbcType=VARCHAR},
+      EIGENVALUE = #{record.eigenvalue,jdbcType=VARCHAR},
+      PRODUCT_CODE = #{record.productCode,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=NUMERIC},
+      SUPPLEMENT_CODE = #{record.supplementCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplementDetails">
+    update WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS
+    <set>
+      <if test="workOrderCode != null">
+        WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materielCode != null">
+        MATERIEL_CODE = #{materielCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materielBatchCode != null">
+        MATERIEL_BATCH_CODE = #{materielBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="needNumber != null">
+        NEED_NUMBER = #{needNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="sendNumber != null">
+        SEND_NUMBER = #{sendNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="wasteType != null">
+        WASTE_TYPE = #{wasteType,jdbcType=NUMERIC},
+      </if>
+      <if test="materielUnit != null">
+        MATERIEL_UNIT = #{materielUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="eigenvalue != null">
+        EIGENVALUE = #{eigenvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="productCode != null">
+        PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=NUMERIC},
+      </if>
+      <if test="supplementCode != null">
+        SUPPLEMENT_CODE = #{supplementCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplementDetails">
+    update WORK_ORDER_MATERIAL_SUPPLEMENT_DETAILS
+    set WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR},
+      MATERIEL_CODE = #{materielCode,jdbcType=VARCHAR},
+      MATERIEL_BATCH_CODE = #{materielBatchCode,jdbcType=VARCHAR},
+      NEED_NUMBER = #{needNumber,jdbcType=NUMERIC},
+      SEND_NUMBER = #{sendNumber,jdbcType=NUMERIC},
+      WASTE_TYPE = #{wasteType,jdbcType=NUMERIC},
+      MATERIEL_UNIT = #{materielUnit,jdbcType=VARCHAR},
+      EIGENVALUE = #{eigenvalue,jdbcType=VARCHAR},
+      PRODUCT_CODE = #{productCode,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=NUMERIC},
+      SUPPLEMENT_CODE = #{supplementCode,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+
+  <select id="selectByWorkOrderCode" resultType="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplementDetails">
+    select  * from WORK_ORDER_MATERIAL_SUPPLEMENT where MATERIEL_CODE=#{materialNo,jdbcType=VARCHAR} and SUPPLEMENT_CODE=#{supplementCode,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectWorkOrderCode" resultType="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplementDetails">
+     select a.* from work_order_material_supplement_details a
+    inner join
+    (select id,nvl(STATUS,0) as STATUS from work_order_material_supplement_details) b on a.id=b.id
+    and a.NEED_NUMBER > a.SEND_NUMBER and b.STATUS=0
+    where a.SUPPLEMENT_CODE =#{supplementCode,jdbcType=VARCHAR}
+    ORDER BY a.ID
+  </select>
+</mapper>

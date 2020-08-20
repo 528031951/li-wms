@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.ext.BaseDepotToCaseExtMapper">
+    <delete id="deleteByBoxCode">
+        delete BASE_DEPOT_TO_CASE where CASE_NO=#{boxBarcode,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="selectByCaseNo" resultType="java.lang.Integer">
+        select count(*) from BASE_DEPOT_TO_CASE where CASE_NO=#{trayNo,jdbcType=VARCHAR}
+    </select>
+    <select id="selectInfoByCaseNo" resultType="com.bpm.gd.wms.outbound.server.vo.TrayInfoVO">
+
+    </select>
+</mapper>

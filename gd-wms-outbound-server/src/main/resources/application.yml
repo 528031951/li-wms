@@ -1,13 +1,13 @@
 spring:
   application:
-    name: gd-wms-outbound
+    name: gd-wms-outbound-dev
   profiles:
     active: dev
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   redis:
-    host: 192.168.0.191
+    host: 192.168.10.28
     port: 6389
 pagehelper:
   helperDialect: oracle
@@ -24,6 +24,17 @@ rule:
   log:
     enable: false
   service-name: order案例服务
+
+request:
+  url: http://192.168.0.230/wtoptst/ws/r/awsp920
+  #srm人员部门url
+  #srmUserUrl: http://192.168.10.25:8035/departmentAndUser
+  srmUserUrl: http://192.168.10.27:8035/departmentAndUser
+  #扫描托盘接口
+  mesOrderUrl: http://192.168.10.26:9988/tray/queryByTrayCode
+  #扫描箱子接口
+  mesOrderBoxUrl: http://192.168.10.26:9988/tray/queryByBoxCode
+  detailsUrl: "http://www.baidu.com"
 # 服务版本管理配置
 info:
   build:

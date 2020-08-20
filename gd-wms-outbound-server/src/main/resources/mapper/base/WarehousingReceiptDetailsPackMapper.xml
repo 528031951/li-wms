@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.base.WarehousingReceiptDetailsPackMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.WarehousingReceiptDetailsPack">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="BOX_NO" jdbcType="VARCHAR" property="boxNo" />
+    <result column="PACK_NO" jdbcType="VARCHAR" property="packNo" />
+    <result column="MATERIAL_NUMBER" jdbcType="NUMERIC" property="materialNumber" />
+    <result column="MATERIAL_NUMBER_QUA" jdbcType="NUMERIC" property="materialNumberQua" />
+    <result column="MATERIAL_NUMBER_NOTQUA" jdbcType="NUMERIC" property="materialNumberNotqua" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CREATOR_ID" jdbcType="NUMERIC" property="creatorId" />
+    <result column="UPDATER_ID" jdbcType="NUMERIC" property="updaterId" />
+    <result column="IS_BOUND" jdbcType="NUMERIC" property="isBound" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, BOX_NO, PACK_NO, MATERIAL_NUMBER, MATERIAL_NUMBER_QUA, MATERIAL_NUMBER_NOTQUA, 
+    CREATE_TIME, UPDATE_TIME, CREATOR_ID, UPDATER_ID, IS_BOUND
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingReceiptDetailsPackExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from WAREHOUSING_RECEIPT_DETAILS_PACK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from WAREHOUSING_RECEIPT_DETAILS_PACK
+    where ID = #{id,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from WAREHOUSING_RECEIPT_DETAILS_PACK
+    where ID = #{id,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingReceiptDetailsPackExample">
+    delete from WAREHOUSING_RECEIPT_DETAILS_PACK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingReceiptDetailsPack">
+    insert into WAREHOUSING_RECEIPT_DETAILS_PACK (ID, BOX_NO, PACK_NO, 
+      MATERIAL_NUMBER, MATERIAL_NUMBER_QUA, MATERIAL_NUMBER_NOTQUA, 
+      CREATE_TIME, UPDATE_TIME, CREATOR_ID, 
+      UPDATER_ID, IS_BOUND)
+    values (#{id,jdbcType=NUMERIC}, #{boxNo,jdbcType=VARCHAR}, #{packNo,jdbcType=VARCHAR}, 
+      #{materialNumber,jdbcType=NUMERIC}, #{materialNumberQua,jdbcType=NUMERIC}, #{materialNumberNotqua,jdbcType=NUMERIC}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=NUMERIC}, 
+      #{updaterId,jdbcType=NUMERIC}, #{isBound,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingReceiptDetailsPack">
+    insert into WAREHOUSING_RECEIPT_DETAILS_PACK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="boxNo != null">
+        BOX_NO,
+      </if>
+      <if test="packNo != null">
+        PACK_NO,
+      </if>
+      <if test="materialNumber != null">
+        MATERIAL_NUMBER,
+      </if>
+      <if test="materialNumberQua != null">
+        MATERIAL_NUMBER_QUA,
+      </if>
+      <if test="materialNumberNotqua != null">
+        MATERIAL_NUMBER_NOTQUA,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID,
+      </if>
+      <if test="updaterId != null">
+        UPDATER_ID,
+      </if>
+      <if test="isBound != null">
+        IS_BOUND,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=NUMERIC},
+      </if>
+      <if test="boxNo != null">
+        #{boxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="packNo != null">
+        #{packNo,jdbcType=VARCHAR},
+      </if>
+      <if test="materialNumber != null">
+        #{materialNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="materialNumberQua != null">
+        #{materialNumberQua,jdbcType=NUMERIC},
+      </if>
+      <if test="materialNumberNotqua != null">
+        #{materialNumberNotqua,jdbcType=NUMERIC},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="isBound != null">
+        #{isBound,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingReceiptDetailsPackExample" resultType="java.lang.Long">
+    select count(*) from WAREHOUSING_RECEIPT_DETAILS_PACK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="selectMaterialNumberQuaByPackNo" resultType="java.math.BigDecimal">
+      select MATERIAL_NUMBER_QUA from WAREHOUSING_RECEIPT_DETAILS_PACK where PACK_NO = #{packNo,jdbcType=VARCHAR} and IS_BOUND = 1
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update WAREHOUSING_RECEIPT_DETAILS_PACK
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=NUMERIC},
+      </if>
+      <if test="record.boxNo != null">
+        BOX_NO = #{record.boxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packNo != null">
+        PACK_NO = #{record.packNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialNumber != null">
+        MATERIAL_NUMBER = #{record.materialNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.materialNumberQua != null">
+        MATERIAL_NUMBER_QUA = #{record.materialNumberQua,jdbcType=NUMERIC},
+      </if>
+      <if test="record.materialNumberNotqua != null">
+        MATERIAL_NUMBER_NOTQUA = #{record.materialNumberNotqua,jdbcType=NUMERIC},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creatorId != null">
+        CREATOR_ID = #{record.creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.updaterId != null">
+        UPDATER_ID = #{record.updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.isBound != null">
+        IS_BOUND = #{record.isBound,jdbcType=NUMERIC},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update WAREHOUSING_RECEIPT_DETAILS_PACK
+    set ID = #{record.id,jdbcType=NUMERIC},
+      BOX_NO = #{record.boxNo,jdbcType=VARCHAR},
+      PACK_NO = #{record.packNo,jdbcType=VARCHAR},
+      MATERIAL_NUMBER = #{record.materialNumber,jdbcType=NUMERIC},
+      MATERIAL_NUMBER_QUA = #{record.materialNumberQua,jdbcType=NUMERIC},
+      MATERIAL_NUMBER_NOTQUA = #{record.materialNumberNotqua,jdbcType=NUMERIC},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      CREATOR_ID = #{record.creatorId,jdbcType=NUMERIC},
+      UPDATER_ID = #{record.updaterId,jdbcType=NUMERIC},
+      IS_BOUND = #{record.isBound,jdbcType=NUMERIC}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingReceiptDetailsPack">
+    update WAREHOUSING_RECEIPT_DETAILS_PACK
+    <set>
+      <if test="boxNo != null">
+        BOX_NO = #{boxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="packNo != null">
+        PACK_NO = #{packNo,jdbcType=VARCHAR},
+      </if>
+      <if test="materialNumber != null">
+        MATERIAL_NUMBER = #{materialNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="materialNumberQua != null">
+        MATERIAL_NUMBER_QUA = #{materialNumberQua,jdbcType=NUMERIC},
+      </if>
+      <if test="materialNumberNotqua != null">
+        MATERIAL_NUMBER_NOTQUA = #{materialNumberNotqua,jdbcType=NUMERIC},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID = #{creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="updaterId != null">
+        UPDATER_ID = #{updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="isBound != null">
+        IS_BOUND = #{isBound,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingReceiptDetailsPack">
+    update WAREHOUSING_RECEIPT_DETAILS_PACK
+    set BOX_NO = #{boxNo,jdbcType=VARCHAR},
+      PACK_NO = #{packNo,jdbcType=VARCHAR},
+      MATERIAL_NUMBER = #{materialNumber,jdbcType=NUMERIC},
+      MATERIAL_NUMBER_QUA = #{materialNumberQua,jdbcType=NUMERIC},
+      MATERIAL_NUMBER_NOTQUA = #{materialNumberNotqua,jdbcType=NUMERIC},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CREATOR_ID = #{creatorId,jdbcType=NUMERIC},
+      UPDATER_ID = #{updaterId,jdbcType=NUMERIC},
+      IS_BOUND = #{isBound,jdbcType=NUMERIC}
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+    <update id="updateIsBoundByBoxNo">
+      update WAREHOUSING_RECEIPT_DETAILS_PACK set IS_BOUND = 1 where BOX_NO = #{boxNo,jdbcType=VARCHAR}
+    </update>
+</mapper>

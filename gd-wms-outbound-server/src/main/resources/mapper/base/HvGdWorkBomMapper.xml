@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.base.HvGdWorkBomMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.HvGdWorkBom">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="BOM_ITEM_NO" jdbcType="VARCHAR" property="bomItemNo" />
+    <result column="MAIN_MATERIAL_NO" jdbcType="VARCHAR" property="mainMaterialNo" />
+    <result column="MAIN_MATERIAL_SPEC" jdbcType="VARCHAR" property="mainMaterialSpec" />
+    <result column="MATERIAL_ITEM_NO" jdbcType="VARCHAR" property="materialItemNo" />
+    <result column="MATERIAL_NO" jdbcType="VARCHAR" property="materialNo" />
+    <result column="MATERIAL_SPEC" jdbcType="VARCHAR" property="materialSpec" />
+    <result column="EIGENVALUE" jdbcType="VARCHAR" property="eigenvalue" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="ISSUED_QUANTITY" jdbcType="NUMERIC" property="issuedQuantity" />
+    <result column="SEND_QUANTITY" jdbcType="NUMERIC" property="sendQuantity" />
+    <result column="RECEIVE_QUANTITY" jdbcType="NUMERIC" property="receiveQuantity" />
+    <result column="RECEIVE_STATE" jdbcType="NUMERIC" property="receiveState" />
+    <result column="CONFIRM_TIME" jdbcType="TIMESTAMP" property="confirmTime" />
+    <result column="ORDER_ID" jdbcType="NUMERIC" property="orderId" />
+    <result column="WORK_ORDER_CODE" jdbcType="VARCHAR" property="workOrderCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, BOM_ITEM_NO, MAIN_MATERIAL_NO, MAIN_MATERIAL_SPEC, MATERIAL_ITEM_NO, MATERIAL_NO, 
+    MATERIAL_SPEC, EIGENVALUE, UNIT, ISSUED_QUANTITY, SEND_QUANTITY, RECEIVE_QUANTITY, 
+    RECEIVE_STATE, CONFIRM_TIME, ORDER_ID, WORK_ORDER_CODE
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdWorkBomExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HV_GD_WORK_BOM
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HV_GD_WORK_BOM
+    where ID = #{id,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from HV_GD_WORK_BOM
+    where ID = #{id,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdWorkBomExample">
+    delete from HV_GD_WORK_BOM
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdWorkBom">
+    insert into HV_GD_WORK_BOM (ID, BOM_ITEM_NO, MAIN_MATERIAL_NO, 
+      MAIN_MATERIAL_SPEC, MATERIAL_ITEM_NO, MATERIAL_NO, 
+      MATERIAL_SPEC, EIGENVALUE, UNIT, 
+      ISSUED_QUANTITY, SEND_QUANTITY, RECEIVE_QUANTITY, 
+      RECEIVE_STATE, CONFIRM_TIME, ORDER_ID, 
+      WORK_ORDER_CODE)
+    values (#{id,jdbcType=NUMERIC}, #{bomItemNo,jdbcType=VARCHAR}, #{mainMaterialNo,jdbcType=VARCHAR}, 
+      #{mainMaterialSpec,jdbcType=VARCHAR}, #{materialItemNo,jdbcType=VARCHAR}, #{materialNo,jdbcType=VARCHAR}, 
+      #{materialSpec,jdbcType=VARCHAR}, #{eigenvalue,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
+      #{issuedQuantity,jdbcType=NUMERIC}, #{sendQuantity,jdbcType=NUMERIC}, #{receiveQuantity,jdbcType=NUMERIC}, 
+      #{receiveState,jdbcType=NUMERIC}, #{confirmTime,jdbcType=TIMESTAMP}, #{orderId,jdbcType=NUMERIC}, 
+      #{workOrderCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdWorkBom">
+    insert into HV_GD_WORK_BOM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="bomItemNo != null">
+        BOM_ITEM_NO,
+      </if>
+      <if test="mainMaterialNo != null">
+        MAIN_MATERIAL_NO,
+      </if>
+      <if test="mainMaterialSpec != null">
+        MAIN_MATERIAL_SPEC,
+      </if>
+      <if test="materialItemNo != null">
+        MATERIAL_ITEM_NO,
+      </if>
+      <if test="materialNo != null">
+        MATERIAL_NO,
+      </if>
+      <if test="materialSpec != null">
+        MATERIAL_SPEC,
+      </if>
+      <if test="eigenvalue != null">
+        EIGENVALUE,
+      </if>
+      <if test="unit != null">
+        UNIT,
+      </if>
+      <if test="issuedQuantity != null">
+        ISSUED_QUANTITY,
+      </if>
+      <if test="sendQuantity != null">
+        SEND_QUANTITY,
+      </if>
+      <if test="receiveQuantity != null">
+        RECEIVE_QUANTITY,
+      </if>
+      <if test="receiveState != null">
+        RECEIVE_STATE,
+      </if>
+      <if test="confirmTime != null">
+        CONFIRM_TIME,
+      </if>
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="workOrderCode != null">
+        WORK_ORDER_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=NUMERIC},
+      </if>
+      <if test="bomItemNo != null">
+        #{bomItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mainMaterialNo != null">
+        #{mainMaterialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mainMaterialSpec != null">
+        #{mainMaterialSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="materialItemNo != null">
+        #{materialItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="materialNo != null">
+        #{materialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="materialSpec != null">
+        #{materialSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="eigenvalue != null">
+        #{eigenvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="issuedQuantity != null">
+        #{issuedQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="sendQuantity != null">
+        #{sendQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="receiveQuantity != null">
+        #{receiveQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="receiveState != null">
+        #{receiveState,jdbcType=NUMERIC},
+      </if>
+      <if test="confirmTime != null">
+        #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=NUMERIC},
+      </if>
+      <if test="workOrderCode != null">
+        #{workOrderCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdWorkBomExample" resultType="java.lang.Long">
+    select count(*) from HV_GD_WORK_BOM
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update HV_GD_WORK_BOM
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=NUMERIC},
+      </if>
+      <if test="record.bomItemNo != null">
+        BOM_ITEM_NO = #{record.bomItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainMaterialNo != null">
+        MAIN_MATERIAL_NO = #{record.mainMaterialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mainMaterialSpec != null">
+        MAIN_MATERIAL_SPEC = #{record.mainMaterialSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialItemNo != null">
+        MATERIAL_ITEM_NO = #{record.materialItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialNo != null">
+        MATERIAL_NO = #{record.materialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialSpec != null">
+        MATERIAL_SPEC = #{record.materialSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eigenvalue != null">
+        EIGENVALUE = #{record.eigenvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unit != null">
+        UNIT = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issuedQuantity != null">
+        ISSUED_QUANTITY = #{record.issuedQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="record.sendQuantity != null">
+        SEND_QUANTITY = #{record.sendQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="record.receiveQuantity != null">
+        RECEIVE_QUANTITY = #{record.receiveQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="record.receiveState != null">
+        RECEIVE_STATE = #{record.receiveState,jdbcType=NUMERIC},
+      </if>
+      <if test="record.confirmTime != null">
+        CONFIRM_TIME = #{record.confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderId != null">
+        ORDER_ID = #{record.orderId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.workOrderCode != null">
+        WORK_ORDER_CODE = #{record.workOrderCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HV_GD_WORK_BOM
+    set ID = #{record.id,jdbcType=NUMERIC},
+      BOM_ITEM_NO = #{record.bomItemNo,jdbcType=VARCHAR},
+      MAIN_MATERIAL_NO = #{record.mainMaterialNo,jdbcType=VARCHAR},
+      MAIN_MATERIAL_SPEC = #{record.mainMaterialSpec,jdbcType=VARCHAR},
+      MATERIAL_ITEM_NO = #{record.materialItemNo,jdbcType=VARCHAR},
+      MATERIAL_NO = #{record.materialNo,jdbcType=VARCHAR},
+      MATERIAL_SPEC = #{record.materialSpec,jdbcType=VARCHAR},
+      EIGENVALUE = #{record.eigenvalue,jdbcType=VARCHAR},
+      UNIT = #{record.unit,jdbcType=VARCHAR},
+      ISSUED_QUANTITY = #{record.issuedQuantity,jdbcType=NUMERIC},
+      SEND_QUANTITY = #{record.sendQuantity,jdbcType=NUMERIC},
+      RECEIVE_QUANTITY = #{record.receiveQuantity,jdbcType=NUMERIC},
+      RECEIVE_STATE = #{record.receiveState,jdbcType=NUMERIC},
+      CONFIRM_TIME = #{record.confirmTime,jdbcType=TIMESTAMP},
+      ORDER_ID = #{record.orderId,jdbcType=NUMERIC},
+      WORK_ORDER_CODE = #{record.workOrderCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdWorkBom">
+    update HV_GD_WORK_BOM
+    <set>
+      <if test="bomItemNo != null">
+        BOM_ITEM_NO = #{bomItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mainMaterialNo != null">
+        MAIN_MATERIAL_NO = #{mainMaterialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mainMaterialSpec != null">
+        MAIN_MATERIAL_SPEC = #{mainMaterialSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="materialItemNo != null">
+        MATERIAL_ITEM_NO = #{materialItemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="materialNo != null">
+        MATERIAL_NO = #{materialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="materialSpec != null">
+        MATERIAL_SPEC = #{materialSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="eigenvalue != null">
+        EIGENVALUE = #{eigenvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="issuedQuantity != null">
+        ISSUED_QUANTITY = #{issuedQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="sendQuantity != null">
+        SEND_QUANTITY = #{sendQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="receiveQuantity != null">
+        RECEIVE_QUANTITY = #{receiveQuantity,jdbcType=NUMERIC},
+      </if>
+      <if test="receiveState != null">
+        RECEIVE_STATE = #{receiveState,jdbcType=NUMERIC},
+      </if>
+      <if test="confirmTime != null">
+        CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderId != null">
+        ORDER_ID = #{orderId,jdbcType=NUMERIC},
+      </if>
+      <if test="workOrderCode != null">
+        WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdWorkBom">
+    update HV_GD_WORK_BOM
+    set BOM_ITEM_NO = #{bomItemNo,jdbcType=VARCHAR},
+      MAIN_MATERIAL_NO = #{mainMaterialNo,jdbcType=VARCHAR},
+      MAIN_MATERIAL_SPEC = #{mainMaterialSpec,jdbcType=VARCHAR},
+      MATERIAL_ITEM_NO = #{materialItemNo,jdbcType=VARCHAR},
+      MATERIAL_NO = #{materialNo,jdbcType=VARCHAR},
+      MATERIAL_SPEC = #{materialSpec,jdbcType=VARCHAR},
+      EIGENVALUE = #{eigenvalue,jdbcType=VARCHAR},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      ISSUED_QUANTITY = #{issuedQuantity,jdbcType=NUMERIC},
+      SEND_QUANTITY = #{sendQuantity,jdbcType=NUMERIC},
+      RECEIVE_QUANTITY = #{receiveQuantity,jdbcType=NUMERIC},
+      RECEIVE_STATE = #{receiveState,jdbcType=NUMERIC},
+      CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+      ORDER_ID = #{orderId,jdbcType=NUMERIC},
+      WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+</mapper>

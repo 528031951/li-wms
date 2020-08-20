@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.base.HvPmWorkOrderMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.HvPmWorkOrder">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATOR_ID" jdbcType="NUMERIC" property="creatorId" />
+    <result column="SITE_NUM" jdbcType="VARCHAR" property="siteNum" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="UPDATER_ID" jdbcType="NUMERIC" property="updaterId" />
+    <result column="ACTUAL_COUNT" jdbcType="NUMERIC" property="actualCount" />
+    <result column="ACTUAL_END_TIME" jdbcType="TIMESTAMP" property="actualEndTime" />
+    <result column="ACTUAL_START_TIME" jdbcType="TIMESTAMP" property="actualStartTime" />
+    <result column="AREA_ID" jdbcType="NUMERIC" property="areaId" />
+    <result column="BOM_ID" jdbcType="NUMERIC" property="bomId" />
+    <result column="BOM_VERSION" jdbcType="VARCHAR" property="bomVersion" />
+    <result column="CELL_ID" jdbcType="NUMERIC" property="cellId" />
+    <result column="CREW_ID" jdbcType="NUMERIC" property="crewId" />
+    <result column="CREW_NAME" jdbcType="VARCHAR" property="crewName" />
+    <result column="EIGENVALUE" jdbcType="VARCHAR" property="eigenvalue" />
+    <result column="ISSUED_TIME" jdbcType="TIMESTAMP" property="issuedTime" />
+    <result column="MATERIAL_CODE" jdbcType="VARCHAR" property="materialCode" />
+    <result column="MATERIAL_ID" jdbcType="NUMERIC" property="materialId" />
+    <result column="MATERIAL_NAME" jdbcType="VARCHAR" property="materialName" />
+    <result column="PLAN_CODE" jdbcType="VARCHAR" property="planCode" />
+    <result column="PLAN_END_TIME" jdbcType="TIMESTAMP" property="planEndTime" />
+    <result column="PLAN_START_TIME" jdbcType="TIMESTAMP" property="planStartTime" />
+    <result column="QUANTITY" jdbcType="NUMERIC" property="quantity" />
+    <result column="ROUTE_CODE" jdbcType="VARCHAR" property="routeCode" />
+    <result column="ROUTE_ID" jdbcType="NUMERIC" property="routeId" />
+    <result column="ROUTE_NAME" jdbcType="VARCHAR" property="routeName" />
+    <result column="ROUTE_VERSION" jdbcType="VARCHAR" property="routeVersion" />
+    <result column="SERIAL_NUMBER" jdbcType="NUMERIC" property="serialNumber" />
+    <result column="SHIFT_ID" jdbcType="NUMERIC" property="shiftId" />
+    <result column="SHIFT_NAME" jdbcType="VARCHAR" property="shiftName" />
+    <result column="WORK_ORDER_CODE" jdbcType="VARCHAR" property="workOrderCode" />
+    <result column="WORK_ORDER_STATE" jdbcType="NUMERIC" property="workOrderState" />
+    <result column="BOM" jdbcType="VARCHAR" property="bom" />
+    <result column="CUSTOMER_NO" jdbcType="VARCHAR" property="customerNo" />
+    <result column="CUSTOMER_NAME" jdbcType="VARCHAR" property="customerName" />
+    <result column="AREA_NAME" jdbcType="VARCHAR" property="areaName" />
+    <result column="AREA_CODE" jdbcType="VARCHAR" property="areaCode" />
+    <result column="WORK_UNIT" jdbcType="VARCHAR" property="workUnit" />
+    <result column="ORDER_TIME" jdbcType="TIMESTAMP" property="orderTime" />
+    <result column="MANAGEMENT_USER" jdbcType="VARCHAR" property="managementUser" />
+    <result column="WORK_ORDER_TYPE" jdbcType="VARCHAR" property="workOrderType" />
+    <result column="PRODUCTION_BATCH" jdbcType="VARCHAR" property="productionBatch" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="CUSTOMER_MATERIAL_CODE" jdbcType="VARCHAR" property="customerMaterialCode" />
+    <result column="MATERIAL_SPEC" jdbcType="VARCHAR" property="materialSpec" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, CREATE_TIME, CREATOR_ID, SITE_NUM, UPDATE_TIME, UPDATER_ID, ACTUAL_COUNT, ACTUAL_END_TIME, 
+    ACTUAL_START_TIME, AREA_ID, BOM_ID, BOM_VERSION, CELL_ID, CREW_ID, CREW_NAME, EIGENVALUE, 
+    ISSUED_TIME, MATERIAL_CODE, MATERIAL_ID, MATERIAL_NAME, PLAN_CODE, PLAN_END_TIME, 
+    PLAN_START_TIME, QUANTITY, ROUTE_CODE, ROUTE_ID, ROUTE_NAME, ROUTE_VERSION, SERIAL_NUMBER, 
+    SHIFT_ID, SHIFT_NAME, WORK_ORDER_CODE, WORK_ORDER_STATE, BOM, CUSTOMER_NO, CUSTOMER_NAME, 
+    AREA_NAME, AREA_CODE, WORK_UNIT, ORDER_TIME, MANAGEMENT_USER, WORK_ORDER_TYPE, PRODUCTION_BATCH, 
+    REMARKS, CUSTOMER_MATERIAL_CODE, MATERIAL_SPEC
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.HvPmWorkOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HV_PM_WORK_ORDER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HV_PM_WORK_ORDER
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from HV_PM_WORK_ORDER
+    where ID = #{id,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.HvPmWorkOrderExample">
+    delete from HV_PM_WORK_ORDER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.HvPmWorkOrder">
+    insert into HV_PM_WORK_ORDER (ID, CREATE_TIME, CREATOR_ID, 
+      SITE_NUM, UPDATE_TIME, UPDATER_ID, 
+      ACTUAL_COUNT, ACTUAL_END_TIME, ACTUAL_START_TIME, 
+      AREA_ID, BOM_ID, BOM_VERSION, 
+      CELL_ID, CREW_ID, CREW_NAME, 
+      EIGENVALUE, ISSUED_TIME, MATERIAL_CODE, 
+      MATERIAL_ID, MATERIAL_NAME, PLAN_CODE, 
+      PLAN_END_TIME, PLAN_START_TIME, QUANTITY, 
+      ROUTE_CODE, ROUTE_ID, ROUTE_NAME, 
+      ROUTE_VERSION, SERIAL_NUMBER, SHIFT_ID, 
+      SHIFT_NAME, WORK_ORDER_CODE, WORK_ORDER_STATE, 
+      BOM, CUSTOMER_NO, CUSTOMER_NAME, 
+      AREA_NAME, AREA_CODE, WORK_UNIT, 
+      ORDER_TIME, MANAGEMENT_USER, WORK_ORDER_TYPE, 
+      PRODUCTION_BATCH, REMARKS, CUSTOMER_MATERIAL_CODE, 
+      MATERIAL_SPEC)
+    values (#{id,jdbcType=NUMERIC}, #{createTime,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=NUMERIC}, 
+      #{siteNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updaterId,jdbcType=NUMERIC}, 
+      #{actualCount,jdbcType=NUMERIC}, #{actualEndTime,jdbcType=TIMESTAMP}, #{actualStartTime,jdbcType=TIMESTAMP}, 
+      #{areaId,jdbcType=NUMERIC}, #{bomId,jdbcType=NUMERIC}, #{bomVersion,jdbcType=VARCHAR}, 
+      #{cellId,jdbcType=NUMERIC}, #{crewId,jdbcType=NUMERIC}, #{crewName,jdbcType=VARCHAR}, 
+      #{eigenvalue,jdbcType=VARCHAR}, #{issuedTime,jdbcType=TIMESTAMP}, #{materialCode,jdbcType=VARCHAR}, 
+      #{materialId,jdbcType=NUMERIC}, #{materialName,jdbcType=VARCHAR}, #{planCode,jdbcType=VARCHAR}, 
+      #{planEndTime,jdbcType=TIMESTAMP}, #{planStartTime,jdbcType=TIMESTAMP}, #{quantity,jdbcType=NUMERIC}, 
+      #{routeCode,jdbcType=VARCHAR}, #{routeId,jdbcType=NUMERIC}, #{routeName,jdbcType=VARCHAR}, 
+      #{routeVersion,jdbcType=VARCHAR}, #{serialNumber,jdbcType=NUMERIC}, #{shiftId,jdbcType=NUMERIC}, 
+      #{shiftName,jdbcType=VARCHAR}, #{workOrderCode,jdbcType=VARCHAR}, #{workOrderState,jdbcType=NUMERIC}, 
+      #{bom,jdbcType=VARCHAR}, #{customerNo,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
+      #{areaName,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, #{workUnit,jdbcType=VARCHAR}, 
+      #{orderTime,jdbcType=TIMESTAMP}, #{managementUser,jdbcType=VARCHAR}, #{workOrderType,jdbcType=VARCHAR}, 
+      #{productionBatch,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{customerMaterialCode,jdbcType=VARCHAR}, 
+      #{materialSpec,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.HvPmWorkOrder">
+    insert into HV_PM_WORK_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID,
+      </if>
+      <if test="siteNum != null">
+        SITE_NUM,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="updaterId != null">
+        UPDATER_ID,
+      </if>
+      <if test="actualCount != null">
+        ACTUAL_COUNT,
+      </if>
+      <if test="actualEndTime != null">
+        ACTUAL_END_TIME,
+      </if>
+      <if test="actualStartTime != null">
+        ACTUAL_START_TIME,
+      </if>
+      <if test="areaId != null">
+        AREA_ID,
+      </if>
+      <if test="bomId != null">
+        BOM_ID,
+      </if>
+      <if test="bomVersion != null">
+        BOM_VERSION,
+      </if>
+      <if test="cellId != null">
+        CELL_ID,
+      </if>
+      <if test="crewId != null">
+        CREW_ID,
+      </if>
+      <if test="crewName != null">
+        CREW_NAME,
+      </if>
+      <if test="eigenvalue != null">
+        EIGENVALUE,
+      </if>
+      <if test="issuedTime != null">
+        ISSUED_TIME,
+      </if>
+      <if test="materialCode != null">
+        MATERIAL_CODE,
+      </if>
+      <if test="materialId != null">
+        MATERIAL_ID,
+      </if>
+      <if test="materialName != null">
+        MATERIAL_NAME,
+      </if>
+      <if test="planCode != null">
+        PLAN_CODE,
+      </if>
+      <if test="planEndTime != null">
+        PLAN_END_TIME,
+      </if>
+      <if test="planStartTime != null">
+        PLAN_START_TIME,
+      </if>
+      <if test="quantity != null">
+        QUANTITY,
+      </if>
+      <if test="routeCode != null">
+        ROUTE_CODE,
+      </if>
+      <if test="routeId != null">
+        ROUTE_ID,
+      </if>
+      <if test="routeName != null">
+        ROUTE_NAME,
+      </if>
+      <if test="routeVersion != null">
+        ROUTE_VERSION,
+      </if>
+      <if test="serialNumber != null">
+        SERIAL_NUMBER,
+      </if>
+      <if test="shiftId != null">
+        SHIFT_ID,
+      </if>
+      <if test="shiftName != null">
+        SHIFT_NAME,
+      </if>
+      <if test="workOrderCode != null">
+        WORK_ORDER_CODE,
+      </if>
+      <if test="workOrderState != null">
+        WORK_ORDER_STATE,
+      </if>
+      <if test="bom != null">
+        BOM,
+      </if>
+      <if test="customerNo != null">
+        CUSTOMER_NO,
+      </if>
+      <if test="customerName != null">
+        CUSTOMER_NAME,
+      </if>
+      <if test="areaName != null">
+        AREA_NAME,
+      </if>
+      <if test="areaCode != null">
+        AREA_CODE,
+      </if>
+      <if test="workUnit != null">
+        WORK_UNIT,
+      </if>
+      <if test="orderTime != null">
+        ORDER_TIME,
+      </if>
+      <if test="managementUser != null">
+        MANAGEMENT_USER,
+      </if>
+      <if test="workOrderType != null">
+        WORK_ORDER_TYPE,
+      </if>
+      <if test="productionBatch != null">
+        PRODUCTION_BATCH,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="customerMaterialCode != null">
+        CUSTOMER_MATERIAL_CODE,
+      </if>
+      <if test="materialSpec != null">
+        MATERIAL_SPEC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=NUMERIC},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="siteNum != null">
+        #{siteNum,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="actualCount != null">
+        #{actualCount,jdbcType=NUMERIC},
+      </if>
+      <if test="actualEndTime != null">
+        #{actualEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualStartTime != null">
+        #{actualStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=NUMERIC},
+      </if>
+      <if test="bomId != null">
+        #{bomId,jdbcType=NUMERIC},
+      </if>
+      <if test="bomVersion != null">
+        #{bomVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="cellId != null">
+        #{cellId,jdbcType=NUMERIC},
+      </if>
+      <if test="crewId != null">
+        #{crewId,jdbcType=NUMERIC},
+      </if>
+      <if test="crewName != null">
+        #{crewName,jdbcType=VARCHAR},
+      </if>
+      <if test="eigenvalue != null">
+        #{eigenvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="issuedTime != null">
+        #{issuedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="materialCode != null">
+        #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        #{materialId,jdbcType=NUMERIC},
+      </if>
+      <if test="materialName != null">
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="planCode != null">
+        #{planCode,jdbcType=VARCHAR},
+      </if>
+      <if test="planEndTime != null">
+        #{planEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planStartTime != null">
+        #{planStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null">
+        #{quantity,jdbcType=NUMERIC},
+      </if>
+      <if test="routeCode != null">
+        #{routeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="routeId != null">
+        #{routeId,jdbcType=NUMERIC},
+      </if>
+      <if test="routeName != null">
+        #{routeName,jdbcType=VARCHAR},
+      </if>
+      <if test="routeVersion != null">
+        #{routeVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null">
+        #{serialNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="shiftId != null">
+        #{shiftId,jdbcType=NUMERIC},
+      </if>
+      <if test="shiftName != null">
+        #{shiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderCode != null">
+        #{workOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderState != null">
+        #{workOrderState,jdbcType=NUMERIC},
+      </if>
+      <if test="bom != null">
+        #{bom,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="workUnit != null">
+        #{workUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="managementUser != null">
+        #{managementUser,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderType != null">
+        #{workOrderType,jdbcType=VARCHAR},
+      </if>
+      <if test="productionBatch != null">
+        #{productionBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="customerMaterialCode != null">
+        #{customerMaterialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialSpec != null">
+        #{materialSpec,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.HvPmWorkOrderExample" resultType="java.lang.Long">
+    select count(*) from HV_PM_WORK_ORDER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update HV_PM_WORK_ORDER
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=NUMERIC},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creatorId != null">
+        CREATOR_ID = #{record.creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.siteNum != null">
+        SITE_NUM = #{record.siteNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updaterId != null">
+        UPDATER_ID = #{record.updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.actualCount != null">
+        ACTUAL_COUNT = #{record.actualCount,jdbcType=NUMERIC},
+      </if>
+      <if test="record.actualEndTime != null">
+        ACTUAL_END_TIME = #{record.actualEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.actualStartTime != null">
+        ACTUAL_START_TIME = #{record.actualStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.areaId != null">
+        AREA_ID = #{record.areaId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.bomId != null">
+        BOM_ID = #{record.bomId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.bomVersion != null">
+        BOM_VERSION = #{record.bomVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cellId != null">
+        CELL_ID = #{record.cellId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.crewId != null">
+        CREW_ID = #{record.crewId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.crewName != null">
+        CREW_NAME = #{record.crewName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eigenvalue != null">
+        EIGENVALUE = #{record.eigenvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issuedTime != null">
+        ISSUED_TIME = #{record.issuedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.materialCode != null">
+        MATERIAL_CODE = #{record.materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialId != null">
+        MATERIAL_ID = #{record.materialId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.materialName != null">
+        MATERIAL_NAME = #{record.materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planCode != null">
+        PLAN_CODE = #{record.planCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planEndTime != null">
+        PLAN_END_TIME = #{record.planEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planStartTime != null">
+        PLAN_START_TIME = #{record.planStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.quantity != null">
+        QUANTITY = #{record.quantity,jdbcType=NUMERIC},
+      </if>
+      <if test="record.routeCode != null">
+        ROUTE_CODE = #{record.routeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.routeId != null">
+        ROUTE_ID = #{record.routeId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.routeName != null">
+        ROUTE_NAME = #{record.routeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.routeVersion != null">
+        ROUTE_VERSION = #{record.routeVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serialNumber != null">
+        SERIAL_NUMBER = #{record.serialNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.shiftId != null">
+        SHIFT_ID = #{record.shiftId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.shiftName != null">
+        SHIFT_NAME = #{record.shiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workOrderCode != null">
+        WORK_ORDER_CODE = #{record.workOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workOrderState != null">
+        WORK_ORDER_STATE = #{record.workOrderState,jdbcType=NUMERIC},
+      </if>
+      <if test="record.bom != null">
+        BOM = #{record.bom,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerNo != null">
+        CUSTOMER_NO = #{record.customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerName != null">
+        CUSTOMER_NAME = #{record.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaName != null">
+        AREA_NAME = #{record.areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaCode != null">
+        AREA_CODE = #{record.areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workUnit != null">
+        WORK_UNIT = #{record.workUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderTime != null">
+        ORDER_TIME = #{record.orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.managementUser != null">
+        MANAGEMENT_USER = #{record.managementUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workOrderType != null">
+        WORK_ORDER_TYPE = #{record.workOrderType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productionBatch != null">
+        PRODUCTION_BATCH = #{record.productionBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerMaterialCode != null">
+        CUSTOMER_MATERIAL_CODE = #{record.customerMaterialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialSpec != null">
+        MATERIAL_SPEC = #{record.materialSpec,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HV_PM_WORK_ORDER
+    set ID = #{record.id,jdbcType=NUMERIC},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      CREATOR_ID = #{record.creatorId,jdbcType=NUMERIC},
+      SITE_NUM = #{record.siteNum,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      UPDATER_ID = #{record.updaterId,jdbcType=NUMERIC},
+      ACTUAL_COUNT = #{record.actualCount,jdbcType=NUMERIC},
+      ACTUAL_END_TIME = #{record.actualEndTime,jdbcType=TIMESTAMP},
+      ACTUAL_START_TIME = #{record.actualStartTime,jdbcType=TIMESTAMP},
+      AREA_ID = #{record.areaId,jdbcType=NUMERIC},
+      BOM_ID = #{record.bomId,jdbcType=NUMERIC},
+      BOM_VERSION = #{record.bomVersion,jdbcType=VARCHAR},
+      CELL_ID = #{record.cellId,jdbcType=NUMERIC},
+      CREW_ID = #{record.crewId,jdbcType=NUMERIC},
+      CREW_NAME = #{record.crewName,jdbcType=VARCHAR},
+      EIGENVALUE = #{record.eigenvalue,jdbcType=VARCHAR},
+      ISSUED_TIME = #{record.issuedTime,jdbcType=TIMESTAMP},
+      MATERIAL_CODE = #{record.materialCode,jdbcType=VARCHAR},
+      MATERIAL_ID = #{record.materialId,jdbcType=NUMERIC},
+      MATERIAL_NAME = #{record.materialName,jdbcType=VARCHAR},
+      PLAN_CODE = #{record.planCode,jdbcType=VARCHAR},
+      PLAN_END_TIME = #{record.planEndTime,jdbcType=TIMESTAMP},
+      PLAN_START_TIME = #{record.planStartTime,jdbcType=TIMESTAMP},
+      QUANTITY = #{record.quantity,jdbcType=NUMERIC},
+      ROUTE_CODE = #{record.routeCode,jdbcType=VARCHAR},
+      ROUTE_ID = #{record.routeId,jdbcType=NUMERIC},
+      ROUTE_NAME = #{record.routeName,jdbcType=VARCHAR},
+      ROUTE_VERSION = #{record.routeVersion,jdbcType=VARCHAR},
+      SERIAL_NUMBER = #{record.serialNumber,jdbcType=NUMERIC},
+      SHIFT_ID = #{record.shiftId,jdbcType=NUMERIC},
+      SHIFT_NAME = #{record.shiftName,jdbcType=VARCHAR},
+      WORK_ORDER_CODE = #{record.workOrderCode,jdbcType=VARCHAR},
+      WORK_ORDER_STATE = #{record.workOrderState,jdbcType=NUMERIC},
+      BOM = #{record.bom,jdbcType=VARCHAR},
+      CUSTOMER_NO = #{record.customerNo,jdbcType=VARCHAR},
+      CUSTOMER_NAME = #{record.customerName,jdbcType=VARCHAR},
+      AREA_NAME = #{record.areaName,jdbcType=VARCHAR},
+      AREA_CODE = #{record.areaCode,jdbcType=VARCHAR},
+      WORK_UNIT = #{record.workUnit,jdbcType=VARCHAR},
+      ORDER_TIME = #{record.orderTime,jdbcType=TIMESTAMP},
+      MANAGEMENT_USER = #{record.managementUser,jdbcType=VARCHAR},
+      WORK_ORDER_TYPE = #{record.workOrderType,jdbcType=VARCHAR},
+      PRODUCTION_BATCH = #{record.productionBatch,jdbcType=VARCHAR},
+      REMARKS = #{record.remarks,jdbcType=VARCHAR},
+      CUSTOMER_MATERIAL_CODE = #{record.customerMaterialCode,jdbcType=VARCHAR},
+      MATERIAL_SPEC = #{record.materialSpec,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.HvPmWorkOrder">
+    update HV_PM_WORK_ORDER
+    <set>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID = #{creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="siteNum != null">
+        SITE_NUM = #{siteNum,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaterId != null">
+        UPDATER_ID = #{updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="actualCount != null">
+        ACTUAL_COUNT = #{actualCount,jdbcType=NUMERIC},
+      </if>
+      <if test="actualEndTime != null">
+        ACTUAL_END_TIME = #{actualEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="actualStartTime != null">
+        ACTUAL_START_TIME = #{actualStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="areaId != null">
+        AREA_ID = #{areaId,jdbcType=NUMERIC},
+      </if>
+      <if test="bomId != null">
+        BOM_ID = #{bomId,jdbcType=NUMERIC},
+      </if>
+      <if test="bomVersion != null">
+        BOM_VERSION = #{bomVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="cellId != null">
+        CELL_ID = #{cellId,jdbcType=NUMERIC},
+      </if>
+      <if test="crewId != null">
+        CREW_ID = #{crewId,jdbcType=NUMERIC},
+      </if>
+      <if test="crewName != null">
+        CREW_NAME = #{crewName,jdbcType=VARCHAR},
+      </if>
+      <if test="eigenvalue != null">
+        EIGENVALUE = #{eigenvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="issuedTime != null">
+        ISSUED_TIME = #{issuedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="materialCode != null">
+        MATERIAL_CODE = #{materialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialId != null">
+        MATERIAL_ID = #{materialId,jdbcType=NUMERIC},
+      </if>
+      <if test="materialName != null">
+        MATERIAL_NAME = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="planCode != null">
+        PLAN_CODE = #{planCode,jdbcType=VARCHAR},
+      </if>
+      <if test="planEndTime != null">
+        PLAN_END_TIME = #{planEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planStartTime != null">
+        PLAN_START_TIME = #{planStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quantity != null">
+        QUANTITY = #{quantity,jdbcType=NUMERIC},
+      </if>
+      <if test="routeCode != null">
+        ROUTE_CODE = #{routeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="routeId != null">
+        ROUTE_ID = #{routeId,jdbcType=NUMERIC},
+      </if>
+      <if test="routeName != null">
+        ROUTE_NAME = #{routeName,jdbcType=VARCHAR},
+      </if>
+      <if test="routeVersion != null">
+        ROUTE_VERSION = #{routeVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null">
+        SERIAL_NUMBER = #{serialNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="shiftId != null">
+        SHIFT_ID = #{shiftId,jdbcType=NUMERIC},
+      </if>
+      <if test="shiftName != null">
+        SHIFT_NAME = #{shiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderCode != null">
+        WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderState != null">
+        WORK_ORDER_STATE = #{workOrderState,jdbcType=NUMERIC},
+      </if>
+      <if test="bom != null">
+        BOM = #{bom,jdbcType=VARCHAR},
+      </if>
+      <if test="customerNo != null">
+        CUSTOMER_NO = #{customerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        CUSTOMER_NAME = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="workUnit != null">
+        WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="orderTime != null">
+        ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="managementUser != null">
+        MANAGEMENT_USER = #{managementUser,jdbcType=VARCHAR},
+      </if>
+      <if test="workOrderType != null">
+        WORK_ORDER_TYPE = #{workOrderType,jdbcType=VARCHAR},
+      </if>
+      <if test="productionBatch != null">
+        PRODUCTION_BATCH = #{productionBatch,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="customerMaterialCode != null">
+        CUSTOMER_MATERIAL_CODE = #{customerMaterialCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materialSpec != null">
+        MATERIAL_SPEC = #{materialSpec,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.HvPmWorkOrder">
+    update HV_PM_WORK_ORDER
+    set CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR_ID = #{creatorId,jdbcType=NUMERIC},
+      SITE_NUM = #{siteNum,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      UPDATER_ID = #{updaterId,jdbcType=NUMERIC},
+      ACTUAL_COUNT = #{actualCount,jdbcType=NUMERIC},
+      ACTUAL_END_TIME = #{actualEndTime,jdbcType=TIMESTAMP},
+      ACTUAL_START_TIME = #{actualStartTime,jdbcType=TIMESTAMP},
+      AREA_ID = #{areaId,jdbcType=NUMERIC},
+      BOM_ID = #{bomId,jdbcType=NUMERIC},
+      BOM_VERSION = #{bomVersion,jdbcType=VARCHAR},
+      CELL_ID = #{cellId,jdbcType=NUMERIC},
+      CREW_ID = #{crewId,jdbcType=NUMERIC},
+      CREW_NAME = #{crewName,jdbcType=VARCHAR},
+      EIGENVALUE = #{eigenvalue,jdbcType=VARCHAR},
+      ISSUED_TIME = #{issuedTime,jdbcType=TIMESTAMP},
+      MATERIAL_CODE = #{materialCode,jdbcType=VARCHAR},
+      MATERIAL_ID = #{materialId,jdbcType=NUMERIC},
+      MATERIAL_NAME = #{materialName,jdbcType=VARCHAR},
+      PLAN_CODE = #{planCode,jdbcType=VARCHAR},
+      PLAN_END_TIME = #{planEndTime,jdbcType=TIMESTAMP},
+      PLAN_START_TIME = #{planStartTime,jdbcType=TIMESTAMP},
+      QUANTITY = #{quantity,jdbcType=NUMERIC},
+      ROUTE_CODE = #{routeCode,jdbcType=VARCHAR},
+      ROUTE_ID = #{routeId,jdbcType=NUMERIC},
+      ROUTE_NAME = #{routeName,jdbcType=VARCHAR},
+      ROUTE_VERSION = #{routeVersion,jdbcType=VARCHAR},
+      SERIAL_NUMBER = #{serialNumber,jdbcType=NUMERIC},
+      SHIFT_ID = #{shiftId,jdbcType=NUMERIC},
+      SHIFT_NAME = #{shiftName,jdbcType=VARCHAR},
+      WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR},
+      WORK_ORDER_STATE = #{workOrderState,jdbcType=NUMERIC},
+      BOM = #{bom,jdbcType=VARCHAR},
+      CUSTOMER_NO = #{customerNo,jdbcType=VARCHAR},
+      CUSTOMER_NAME = #{customerName,jdbcType=VARCHAR},
+      AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
+      ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      MANAGEMENT_USER = #{managementUser,jdbcType=VARCHAR},
+      WORK_ORDER_TYPE = #{workOrderType,jdbcType=VARCHAR},
+      PRODUCTION_BATCH = #{productionBatch,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CUSTOMER_MATERIAL_CODE = #{customerMaterialCode,jdbcType=VARCHAR},
+      MATERIAL_SPEC = #{materialSpec,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+</mapper>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.base.BaseSupplierInformationMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.BaseSupplierInformation">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="ENTERPRISE_NUMBER" jdbcType="NUMERIC" property="enterpriseNumber" />
+    <result column="SUPPLIER_CODE" jdbcType="VARCHAR" property="supplierCode" />
+    <result column="SUPPLIER_NAME" jdbcType="VARCHAR" property="supplierName" />
+    <result column="SUPPLIER_ABBREVIATION" jdbcType="VARCHAR" property="supplierAbbreviation" />
+    <result column="BUYER_ID" jdbcType="VARCHAR" property="buyerId" />
+    <result column="PAYMENT_METHOD" jdbcType="VARCHAR" property="paymentMethod" />
+    <result column="SUPPLIER_OPERATION_TYPE" jdbcType="VARCHAR" property="supplierOperationType" />
+    <result column="OPENING_BANK" jdbcType="VARCHAR" property="openingBank" />
+    <result column="BANK_ACCOUNT" jdbcType="VARCHAR" property="bankAccount" />
+    <result column="INVITE_STATUS" jdbcType="NUMERIC" property="inviteStatus" />
+    <result column="AUDIT_STATUS" jdbcType="NUMERIC" property="auditStatus" />
+    <result column="JOIN_DATE" jdbcType="VARCHAR" property="joinDate" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="CREATOR_ID" jdbcType="NUMERIC" property="creatorId" />
+    <result column="UPDATER_ID" jdbcType="NUMERIC" property="updaterId" />
+    <result column="DUTY_PARAGRAPH" jdbcType="VARCHAR" property="dutyParagraph" />
+    <result column="CONTACT_PHONE" jdbcType="VARCHAR" property="contactPhone" />
+    <result column="CONTACT_ADDRESS" jdbcType="VARCHAR" property="contactAddress" />
+    <result column="SUPPLIER_TYPE" jdbcType="VARCHAR" property="supplierType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, ENTERPRISE_NUMBER, SUPPLIER_CODE, SUPPLIER_NAME, SUPPLIER_ABBREVIATION, BUYER_ID, 
+    PAYMENT_METHOD, SUPPLIER_OPERATION_TYPE, OPENING_BANK, BANK_ACCOUNT, INVITE_STATUS, 
+    AUDIT_STATUS, JOIN_DATE, CREATE_TIME, UPDATE_TIME, CREATOR_ID, UPDATER_ID, DUTY_PARAGRAPH, 
+    CONTACT_PHONE, CONTACT_ADDRESS, SUPPLIER_TYPE
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseSupplierInformationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from BASE_SUPPLIER_INFORMATION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from BASE_SUPPLIER_INFORMATION
+    where ID = #{id,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from BASE_SUPPLIER_INFORMATION
+    where ID = #{id,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseSupplierInformationExample">
+    delete from BASE_SUPPLIER_INFORMATION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseSupplierInformation">
+    insert into BASE_SUPPLIER_INFORMATION (ID, ENTERPRISE_NUMBER, SUPPLIER_CODE, 
+      SUPPLIER_NAME, SUPPLIER_ABBREVIATION, BUYER_ID, 
+      PAYMENT_METHOD, SUPPLIER_OPERATION_TYPE, OPENING_BANK, 
+      BANK_ACCOUNT, INVITE_STATUS, AUDIT_STATUS, 
+      JOIN_DATE, CREATE_TIME, UPDATE_TIME, 
+      CREATOR_ID, UPDATER_ID, DUTY_PARAGRAPH, 
+      CONTACT_PHONE, CONTACT_ADDRESS, SUPPLIER_TYPE
+      )
+    values (#{id,jdbcType=NUMERIC}, #{enterpriseNumber,jdbcType=NUMERIC}, #{supplierCode,jdbcType=VARCHAR}, 
+      #{supplierName,jdbcType=VARCHAR}, #{supplierAbbreviation,jdbcType=VARCHAR}, #{buyerId,jdbcType=VARCHAR}, 
+      #{paymentMethod,jdbcType=VARCHAR}, #{supplierOperationType,jdbcType=VARCHAR}, #{openingBank,jdbcType=VARCHAR}, 
+      #{bankAccount,jdbcType=VARCHAR}, #{inviteStatus,jdbcType=NUMERIC}, #{auditStatus,jdbcType=NUMERIC}, 
+      #{joinDate,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{creatorId,jdbcType=NUMERIC}, #{updaterId,jdbcType=NUMERIC}, #{dutyParagraph,jdbcType=VARCHAR}, 
+      #{contactPhone,jdbcType=VARCHAR}, #{contactAddress,jdbcType=VARCHAR}, #{supplierType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseSupplierInformation">
+    insert into BASE_SUPPLIER_INFORMATION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="enterpriseNumber != null">
+        ENTERPRISE_NUMBER,
+      </if>
+      <if test="supplierCode != null">
+        SUPPLIER_CODE,
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME,
+      </if>
+      <if test="supplierAbbreviation != null">
+        SUPPLIER_ABBREVIATION,
+      </if>
+      <if test="buyerId != null">
+        BUYER_ID,
+      </if>
+      <if test="paymentMethod != null">
+        PAYMENT_METHOD,
+      </if>
+      <if test="supplierOperationType != null">
+        SUPPLIER_OPERATION_TYPE,
+      </if>
+      <if test="openingBank != null">
+        OPENING_BANK,
+      </if>
+      <if test="bankAccount != null">
+        BANK_ACCOUNT,
+      </if>
+      <if test="inviteStatus != null">
+        INVITE_STATUS,
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS,
+      </if>
+      <if test="joinDate != null">
+        JOIN_DATE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID,
+      </if>
+      <if test="updaterId != null">
+        UPDATER_ID,
+      </if>
+      <if test="dutyParagraph != null">
+        DUTY_PARAGRAPH,
+      </if>
+      <if test="contactPhone != null">
+        CONTACT_PHONE,
+      </if>
+      <if test="contactAddress != null">
+        CONTACT_ADDRESS,
+      </if>
+      <if test="supplierType != null">
+        SUPPLIER_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=NUMERIC},
+      </if>
+      <if test="enterpriseNumber != null">
+        #{enterpriseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="supplierCode != null">
+        #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAbbreviation != null">
+        #{supplierAbbreviation,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod != null">
+        #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierOperationType != null">
+        #{supplierOperationType,jdbcType=VARCHAR},
+      </if>
+      <if test="openingBank != null">
+        #{openingBank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteStatus != null">
+        #{inviteStatus,jdbcType=NUMERIC},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=NUMERIC},
+      </if>
+      <if test="joinDate != null">
+        #{joinDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        #{creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="updaterId != null">
+        #{updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="dutyParagraph != null">
+        #{dutyParagraph,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactAddress != null">
+        #{contactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierType != null">
+        #{supplierType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseSupplierInformationExample" resultType="java.lang.Long">
+    select count(*) from BASE_SUPPLIER_INFORMATION
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update BASE_SUPPLIER_INFORMATION
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=NUMERIC},
+      </if>
+      <if test="record.enterpriseNumber != null">
+        ENTERPRISE_NUMBER = #{record.enterpriseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.supplierCode != null">
+        SUPPLIER_CODE = #{record.supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierName != null">
+        SUPPLIER_NAME = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierAbbreviation != null">
+        SUPPLIER_ABBREVIATION = #{record.supplierAbbreviation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyerId != null">
+        BUYER_ID = #{record.buyerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentMethod != null">
+        PAYMENT_METHOD = #{record.paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierOperationType != null">
+        SUPPLIER_OPERATION_TYPE = #{record.supplierOperationType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openingBank != null">
+        OPENING_BANK = #{record.openingBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankAccount != null">
+        BANK_ACCOUNT = #{record.bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inviteStatus != null">
+        INVITE_STATUS = #{record.inviteStatus,jdbcType=NUMERIC},
+      </if>
+      <if test="record.auditStatus != null">
+        AUDIT_STATUS = #{record.auditStatus,jdbcType=NUMERIC},
+      </if>
+      <if test="record.joinDate != null">
+        JOIN_DATE = #{record.joinDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creatorId != null">
+        CREATOR_ID = #{record.creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.updaterId != null">
+        UPDATER_ID = #{record.updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.dutyParagraph != null">
+        DUTY_PARAGRAPH = #{record.dutyParagraph,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactPhone != null">
+        CONTACT_PHONE = #{record.contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactAddress != null">
+        CONTACT_ADDRESS = #{record.contactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierType != null">
+        SUPPLIER_TYPE = #{record.supplierType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update BASE_SUPPLIER_INFORMATION
+    set ID = #{record.id,jdbcType=NUMERIC},
+      ENTERPRISE_NUMBER = #{record.enterpriseNumber,jdbcType=NUMERIC},
+      SUPPLIER_CODE = #{record.supplierCode,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{record.supplierName,jdbcType=VARCHAR},
+      SUPPLIER_ABBREVIATION = #{record.supplierAbbreviation,jdbcType=VARCHAR},
+      BUYER_ID = #{record.buyerId,jdbcType=VARCHAR},
+      PAYMENT_METHOD = #{record.paymentMethod,jdbcType=VARCHAR},
+      SUPPLIER_OPERATION_TYPE = #{record.supplierOperationType,jdbcType=VARCHAR},
+      OPENING_BANK = #{record.openingBank,jdbcType=VARCHAR},
+      BANK_ACCOUNT = #{record.bankAccount,jdbcType=VARCHAR},
+      INVITE_STATUS = #{record.inviteStatus,jdbcType=NUMERIC},
+      AUDIT_STATUS = #{record.auditStatus,jdbcType=NUMERIC},
+      JOIN_DATE = #{record.joinDate,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      CREATOR_ID = #{record.creatorId,jdbcType=NUMERIC},
+      UPDATER_ID = #{record.updaterId,jdbcType=NUMERIC},
+      DUTY_PARAGRAPH = #{record.dutyParagraph,jdbcType=VARCHAR},
+      CONTACT_PHONE = #{record.contactPhone,jdbcType=VARCHAR},
+      CONTACT_ADDRESS = #{record.contactAddress,jdbcType=VARCHAR},
+      SUPPLIER_TYPE = #{record.supplierType,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseSupplierInformation">
+    update BASE_SUPPLIER_INFORMATION
+    <set>
+      <if test="enterpriseNumber != null">
+        ENTERPRISE_NUMBER = #{enterpriseNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="supplierCode != null">
+        SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAbbreviation != null">
+        SUPPLIER_ABBREVIATION = #{supplierAbbreviation,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerId != null">
+        BUYER_ID = #{buyerId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentMethod != null">
+        PAYMENT_METHOD = #{paymentMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierOperationType != null">
+        SUPPLIER_OPERATION_TYPE = #{supplierOperationType,jdbcType=VARCHAR},
+      </if>
+      <if test="openingBank != null">
+        OPENING_BANK = #{openingBank,jdbcType=VARCHAR},
+      </if>
+      <if test="bankAccount != null">
+        BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteStatus != null">
+        INVITE_STATUS = #{inviteStatus,jdbcType=NUMERIC},
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS = #{auditStatus,jdbcType=NUMERIC},
+      </if>
+      <if test="joinDate != null">
+        JOIN_DATE = #{joinDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creatorId != null">
+        CREATOR_ID = #{creatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="updaterId != null">
+        UPDATER_ID = #{updaterId,jdbcType=NUMERIC},
+      </if>
+      <if test="dutyParagraph != null">
+        DUTY_PARAGRAPH = #{dutyParagraph,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null">
+        CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactAddress != null">
+        CONTACT_ADDRESS = #{contactAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierType != null">
+        SUPPLIER_TYPE = #{supplierType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.BaseSupplierInformation">
+    update BASE_SUPPLIER_INFORMATION
+    set ENTERPRISE_NUMBER = #{enterpriseNumber,jdbcType=NUMERIC},
+      SUPPLIER_CODE = #{supplierCode,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      SUPPLIER_ABBREVIATION = #{supplierAbbreviation,jdbcType=VARCHAR},
+      BUYER_ID = #{buyerId,jdbcType=VARCHAR},
+      PAYMENT_METHOD = #{paymentMethod,jdbcType=VARCHAR},
+      SUPPLIER_OPERATION_TYPE = #{supplierOperationType,jdbcType=VARCHAR},
+      OPENING_BANK = #{openingBank,jdbcType=VARCHAR},
+      BANK_ACCOUNT = #{bankAccount,jdbcType=VARCHAR},
+      INVITE_STATUS = #{inviteStatus,jdbcType=NUMERIC},
+      AUDIT_STATUS = #{auditStatus,jdbcType=NUMERIC},
+      JOIN_DATE = #{joinDate,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CREATOR_ID = #{creatorId,jdbcType=NUMERIC},
+      UPDATER_ID = #{updaterId,jdbcType=NUMERIC},
+      DUTY_PARAGRAPH = #{dutyParagraph,jdbcType=VARCHAR},
+      CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+      CONTACT_ADDRESS = #{contactAddress,jdbcType=VARCHAR},
+      SUPPLIER_TYPE = #{supplierType,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+</mapper>

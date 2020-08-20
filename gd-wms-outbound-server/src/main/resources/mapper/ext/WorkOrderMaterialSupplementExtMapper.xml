@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.ext.WorkOrderMaterialSupplementExtMapper">
+    <select id="selectWorkOrderMaterialSupplementAll" resultType="com.bpm.gd.wms.outbound.server.domain.WorkOrderMaterialSupplement">
+        select * from WORK_ORDER_MATERIAL_SUPPLEMENT where 1=1
+        <if test="workOrderCodeId !=null and workOrderCodeId!=''">
+          and WORK_ORDER_CODE=#{workOrderCodeId,jdbcType=VARCHAR}
+        </if>
+        <if test="workOrderState !=null and workOrderState!=''">
+          and STATUS=#{workOrderState,jdbcType=VARCHAR}
+        </if>
+
+        <if test="areaCode !=null and areaCode!=''">
+          and  LINE_CODE=#{areaCode,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="selectListByWorkOrderCodeId" resultType="com.bpm.gd.wms.outbound.server.vo.WorkOrderMaterialSupplementDetailsVO">
+          select t.*,g.material_no as materielName,p.MATERIAL_SPEC as materialSpec from Work_Order_Material_Supplement_Details t,hv_pm_work_order p,hv_gd_work_bom g
+      where p.work_order_code = t.work_order_code and g.material_item_no = t.materiel_code
+      and t.supplement_code = #{supplementCode,jdbcType=VARCHAR}
+    </select>
+
+
+
+</mapper>

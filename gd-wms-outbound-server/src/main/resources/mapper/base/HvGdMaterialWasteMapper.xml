@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.base.HvGdMaterialWasteMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.HvGdMaterialWaste">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="WORK_ORDER_ID" jdbcType="NUMERIC" property="workOrderId" />
+    <result column="MATERIEL_CODE" jdbcType="VARCHAR" property="materielCode" />
+    <result column="MATERIEL_BATCH_CODE" jdbcType="VARCHAR" property="materielBatchCode" />
+    <result column="WASTE_NUMBER" jdbcType="NUMERIC" property="wasteNumber" />
+    <result column="STATUS" jdbcType="NUMERIC" property="status" />
+    <result column="WORK_ORDER_CODE" jdbcType="VARCHAR" property="workOrderCode" />
+    <result column="WASTE_TYPE" jdbcType="NUMERIC" property="wasteType" />
+    <result column="MATERIEL_UNIT" jdbcType="VARCHAR" property="materielUnit" />
+    <result column="EIGENVALUE" jdbcType="VARCHAR" property="eigenvalue" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, WORK_ORDER_ID, MATERIEL_CODE, MATERIEL_BATCH_CODE, WASTE_NUMBER, STATUS, WORK_ORDER_CODE, 
+    WASTE_TYPE, MATERIEL_UNIT, EIGENVALUE
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdMaterialWasteExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from HV_GD_MATERIAL_WASTE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from HV_GD_MATERIAL_WASTE
+    where ID = #{id,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from HV_GD_MATERIAL_WASTE
+    where ID = #{id,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdMaterialWasteExample">
+    delete from HV_GD_MATERIAL_WASTE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdMaterialWaste">
+    insert into HV_GD_MATERIAL_WASTE (ID, WORK_ORDER_ID, MATERIEL_CODE, 
+      MATERIEL_BATCH_CODE, WASTE_NUMBER, STATUS, 
+      WORK_ORDER_CODE, WASTE_TYPE, MATERIEL_UNIT, 
+      EIGENVALUE)
+    values (#{id,jdbcType=NUMERIC}, #{workOrderId,jdbcType=NUMERIC}, #{materielCode,jdbcType=VARCHAR}, 
+      #{materielBatchCode,jdbcType=VARCHAR}, #{wasteNumber,jdbcType=NUMERIC}, #{status,jdbcType=NUMERIC}, 
+      #{workOrderCode,jdbcType=VARCHAR}, #{wasteType,jdbcType=NUMERIC}, #{materielUnit,jdbcType=VARCHAR}, 
+      #{eigenvalue,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdMaterialWaste">
+    insert into HV_GD_MATERIAL_WASTE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="workOrderId != null">
+        WORK_ORDER_ID,
+      </if>
+      <if test="materielCode != null">
+        MATERIEL_CODE,
+      </if>
+      <if test="materielBatchCode != null">
+        MATERIEL_BATCH_CODE,
+      </if>
+      <if test="wasteNumber != null">
+        WASTE_NUMBER,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="workOrderCode != null">
+        WORK_ORDER_CODE,
+      </if>
+      <if test="wasteType != null">
+        WASTE_TYPE,
+      </if>
+      <if test="materielUnit != null">
+        MATERIEL_UNIT,
+      </if>
+      <if test="eigenvalue != null">
+        EIGENVALUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=NUMERIC},
+      </if>
+      <if test="workOrderId != null">
+        #{workOrderId,jdbcType=NUMERIC},
+      </if>
+      <if test="materielCode != null">
+        #{materielCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materielBatchCode != null">
+        #{materielBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wasteNumber != null">
+        #{wasteNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=NUMERIC},
+      </if>
+      <if test="workOrderCode != null">
+        #{workOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wasteType != null">
+        #{wasteType,jdbcType=NUMERIC},
+      </if>
+      <if test="materielUnit != null">
+        #{materielUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="eigenvalue != null">
+        #{eigenvalue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdMaterialWasteExample" resultType="java.lang.Long">
+    select count(*) from HV_GD_MATERIAL_WASTE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="selectByWorkOrderCode" resultType="com.bpm.gd.wms.outbound.server.domain.HvGdMaterialWaste">
+      select * from HV_GD_MATERIAL_WASTE where WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR} and status = 0
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update HV_GD_MATERIAL_WASTE
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=NUMERIC},
+      </if>
+      <if test="record.workOrderId != null">
+        WORK_ORDER_ID = #{record.workOrderId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.materielCode != null">
+        MATERIEL_CODE = #{record.materielCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materielBatchCode != null">
+        MATERIEL_BATCH_CODE = #{record.materielBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wasteNumber != null">
+        WASTE_NUMBER = #{record.wasteNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=NUMERIC},
+      </if>
+      <if test="record.workOrderCode != null">
+        WORK_ORDER_CODE = #{record.workOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wasteType != null">
+        WASTE_TYPE = #{record.wasteType,jdbcType=NUMERIC},
+      </if>
+      <if test="record.materielUnit != null">
+        MATERIEL_UNIT = #{record.materielUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eigenvalue != null">
+        EIGENVALUE = #{record.eigenvalue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update HV_GD_MATERIAL_WASTE
+    set ID = #{record.id,jdbcType=NUMERIC},
+      WORK_ORDER_ID = #{record.workOrderId,jdbcType=NUMERIC},
+      MATERIEL_CODE = #{record.materielCode,jdbcType=VARCHAR},
+      MATERIEL_BATCH_CODE = #{record.materielBatchCode,jdbcType=VARCHAR},
+      WASTE_NUMBER = #{record.wasteNumber,jdbcType=NUMERIC},
+      STATUS = #{record.status,jdbcType=NUMERIC},
+      WORK_ORDER_CODE = #{record.workOrderCode,jdbcType=VARCHAR},
+      WASTE_TYPE = #{record.wasteType,jdbcType=NUMERIC},
+      MATERIEL_UNIT = #{record.materielUnit,jdbcType=VARCHAR},
+      EIGENVALUE = #{record.eigenvalue,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdMaterialWaste">
+    update HV_GD_MATERIAL_WASTE
+    <set>
+      <if test="workOrderId != null">
+        WORK_ORDER_ID = #{workOrderId,jdbcType=NUMERIC},
+      </if>
+      <if test="materielCode != null">
+        MATERIEL_CODE = #{materielCode,jdbcType=VARCHAR},
+      </if>
+      <if test="materielBatchCode != null">
+        MATERIEL_BATCH_CODE = #{materielBatchCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wasteNumber != null">
+        WASTE_NUMBER = #{wasteNumber,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=NUMERIC},
+      </if>
+      <if test="workOrderCode != null">
+        WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="wasteType != null">
+        WASTE_TYPE = #{wasteType,jdbcType=NUMERIC},
+      </if>
+      <if test="materielUnit != null">
+        MATERIEL_UNIT = #{materielUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="eigenvalue != null">
+        EIGENVALUE = #{eigenvalue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.HvGdMaterialWaste">
+    update HV_GD_MATERIAL_WASTE
+    set WORK_ORDER_ID = #{workOrderId,jdbcType=NUMERIC},
+      MATERIEL_CODE = #{materielCode,jdbcType=VARCHAR},
+      MATERIEL_BATCH_CODE = #{materielBatchCode,jdbcType=VARCHAR},
+      WASTE_NUMBER = #{wasteNumber,jdbcType=NUMERIC},
+      STATUS = #{status,jdbcType=NUMERIC},
+      WORK_ORDER_CODE = #{workOrderCode,jdbcType=VARCHAR},
+      WASTE_TYPE = #{wasteType,jdbcType=NUMERIC},
+      MATERIEL_UNIT = #{materielUnit,jdbcType=VARCHAR},
+      EIGENVALUE = #{eigenvalue,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+</mapper>

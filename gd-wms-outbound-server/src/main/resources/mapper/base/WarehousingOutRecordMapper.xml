@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bpm.gd.wms.outbound.server.mapper.base.WarehousingOutRecordMapper">
+  <resultMap id="BaseResultMap" type="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecord">
+    <id column="ID" jdbcType="NUMERIC" property="id" />
+    <result column="MATERIAL_NO" jdbcType="VARCHAR" property="materialNo" />
+    <result column="MATERIAL_NAME" jdbcType="VARCHAR" property="materialName" />
+    <result column="SUPPLIER_NO" jdbcType="VARCHAR" property="supplierNo" />
+    <result column="SUPPLIER_NAME" jdbcType="VARCHAR" property="supplierName" />
+    <result column="WAREHOUSING_OUT_TYPE" jdbcType="VARCHAR" property="warehousingOutType" />
+    <result column="STORAGE_NO" jdbcType="VARCHAR" property="storageNo" />
+    <result column="WAREHOUSING_OUT_TIME" jdbcType="TIMESTAMP" property="warehousingOutTime" />
+    <result column="BOX_NO" jdbcType="VARCHAR" property="boxNo" />
+    <result column="COUNT" jdbcType="NUMERIC" property="count" />
+    <result column="UNIT" jdbcType="VARCHAR" property="unit" />
+    <result column="ORDER_NO" jdbcType="VARCHAR" property="orderNo" />
+    <result column="OPERATOR_ID" jdbcType="NUMERIC" property="operatorId" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="AREA_CODE" jdbcType="VARCHAR" property="areaCode" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, MATERIAL_NO, MATERIAL_NAME, SUPPLIER_NO, SUPPLIER_NAME, WAREHOUSING_OUT_TYPE, 
+    STORAGE_NO, WAREHOUSING_OUT_TIME, BOX_NO, COUNT, UNIT, ORDER_NO, OPERATOR_ID, STATUS, 
+    AREA_CODE
+  </sql>
+  <select id="selectByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from WAREHOUSING_OUT_RECORD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from WAREHOUSING_OUT_RECORD
+    where ID = #{id,jdbcType=NUMERIC}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from WAREHOUSING_OUT_RECORD
+    where ID = #{id,jdbcType=NUMERIC}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecordExample">
+    delete from WAREHOUSING_OUT_RECORD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select WAREHOUSING_OUT_RECORD_SEQ.CURRVAL from dual
+    </selectKey>
+    insert into WAREHOUSING_OUT_RECORD (MATERIAL_NO, MATERIAL_NAME, SUPPLIER_NO, 
+      SUPPLIER_NAME, WAREHOUSING_OUT_TYPE, STORAGE_NO, 
+      WAREHOUSING_OUT_TIME, BOX_NO, COUNT, 
+      UNIT, ORDER_NO, OPERATOR_ID, 
+      STATUS, AREA_CODE)
+    values (#{materialNo,jdbcType=VARCHAR}, #{materialName,jdbcType=VARCHAR}, #{supplierNo,jdbcType=VARCHAR}, 
+      #{supplierName,jdbcType=VARCHAR}, #{warehousingOutType,jdbcType=VARCHAR}, #{storageNo,jdbcType=VARCHAR}, 
+      #{warehousingOutTime,jdbcType=TIMESTAMP}, #{boxNo,jdbcType=VARCHAR}, #{count,jdbcType=NUMERIC}, 
+      #{unit,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{operatorId,jdbcType=NUMERIC}, 
+      #{status,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecord">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      select WAREHOUSING_OUT_RECORD_SEQ.CURRVAL from dual
+    </selectKey>
+    insert into WAREHOUSING_OUT_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="materialNo != null">
+        MATERIAL_NO,
+      </if>
+      <if test="materialName != null">
+        MATERIAL_NAME,
+      </if>
+      <if test="supplierNo != null">
+        SUPPLIER_NO,
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME,
+      </if>
+      <if test="warehousingOutType != null">
+        WAREHOUSING_OUT_TYPE,
+      </if>
+      <if test="storageNo != null">
+        STORAGE_NO,
+      </if>
+      <if test="warehousingOutTime != null">
+        WAREHOUSING_OUT_TIME,
+      </if>
+      <if test="boxNo != null">
+        BOX_NO,
+      </if>
+      <if test="count != null">
+        COUNT,
+      </if>
+      <if test="unit != null">
+        UNIT,
+      </if>
+      <if test="orderNo != null">
+        ORDER_NO,
+      </if>
+      <if test="operatorId != null">
+        OPERATOR_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="areaCode != null">
+        AREA_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="materialNo != null">
+        #{materialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null">
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierNo != null">
+        #{supplierNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousingOutType != null">
+        #{warehousingOutType,jdbcType=VARCHAR},
+      </if>
+      <if test="storageNo != null">
+        #{storageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousingOutTime != null">
+        #{warehousingOutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="boxNo != null">
+        #{boxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=NUMERIC},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null">
+        #{operatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecordExample" resultType="java.lang.Long">
+    select count(*) from WAREHOUSING_OUT_RECORD
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="selectByWorkOrderCodeAndBoxNo"
+            resultType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecord">
+      select * from WAREHOUSING_OUT_RECORD where BOX_NO = #{boxNo,jdbcType=VARCHAR} and ORDER_NO = #{workOrderCode,jdbcType=VARCHAR}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update WAREHOUSING_OUT_RECORD
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=NUMERIC},
+      </if>
+      <if test="record.materialNo != null">
+        MATERIAL_NO = #{record.materialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materialName != null">
+        MATERIAL_NAME = #{record.materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierNo != null">
+        SUPPLIER_NO = #{record.supplierNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierName != null">
+        SUPPLIER_NAME = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehousingOutType != null">
+        WAREHOUSING_OUT_TYPE = #{record.warehousingOutType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storageNo != null">
+        STORAGE_NO = #{record.storageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehousingOutTime != null">
+        WAREHOUSING_OUT_TIME = #{record.warehousingOutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.boxNo != null">
+        BOX_NO = #{record.boxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.count != null">
+        COUNT = #{record.count,jdbcType=NUMERIC},
+      </if>
+      <if test="record.unit != null">
+        UNIT = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null">
+        ORDER_NO = #{record.orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatorId != null">
+        OPERATOR_ID = #{record.operatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaCode != null">
+        AREA_CODE = #{record.areaCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update WAREHOUSING_OUT_RECORD
+    set ID = #{record.id,jdbcType=NUMERIC},
+      MATERIAL_NO = #{record.materialNo,jdbcType=VARCHAR},
+      MATERIAL_NAME = #{record.materialName,jdbcType=VARCHAR},
+      SUPPLIER_NO = #{record.supplierNo,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{record.supplierName,jdbcType=VARCHAR},
+      WAREHOUSING_OUT_TYPE = #{record.warehousingOutType,jdbcType=VARCHAR},
+      STORAGE_NO = #{record.storageNo,jdbcType=VARCHAR},
+      WAREHOUSING_OUT_TIME = #{record.warehousingOutTime,jdbcType=TIMESTAMP},
+      BOX_NO = #{record.boxNo,jdbcType=VARCHAR},
+      COUNT = #{record.count,jdbcType=NUMERIC},
+      UNIT = #{record.unit,jdbcType=VARCHAR},
+      ORDER_NO = #{record.orderNo,jdbcType=VARCHAR},
+      OPERATOR_ID = #{record.operatorId,jdbcType=NUMERIC},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      AREA_CODE = #{record.areaCode,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecord">
+    update WAREHOUSING_OUT_RECORD
+    <set>
+      <if test="materialNo != null">
+        MATERIAL_NO = #{materialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null">
+        MATERIAL_NAME = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierNo != null">
+        SUPPLIER_NO = #{supplierNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousingOutType != null">
+        WAREHOUSING_OUT_TYPE = #{warehousingOutType,jdbcType=VARCHAR},
+      </if>
+      <if test="storageNo != null">
+        STORAGE_NO = #{storageNo,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousingOutTime != null">
+        WAREHOUSING_OUT_TIME = #{warehousingOutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="boxNo != null">
+        BOX_NO = #{boxNo,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        COUNT = #{count,jdbcType=NUMERIC},
+      </if>
+      <if test="unit != null">
+        UNIT = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorId != null">
+        OPERATOR_ID = #{operatorId,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bpm.gd.wms.outbound.server.domain.WarehousingOutRecord">
+    update WAREHOUSING_OUT_RECORD
+    set MATERIAL_NO = #{materialNo,jdbcType=VARCHAR},
+      MATERIAL_NAME = #{materialName,jdbcType=VARCHAR},
+      SUPPLIER_NO = #{supplierNo,jdbcType=VARCHAR},
+      SUPPLIER_NAME = #{supplierName,jdbcType=VARCHAR},
+      WAREHOUSING_OUT_TYPE = #{warehousingOutType,jdbcType=VARCHAR},
+      STORAGE_NO = #{storageNo,jdbcType=VARCHAR},
+      WAREHOUSING_OUT_TIME = #{warehousingOutTime,jdbcType=TIMESTAMP},
+      BOX_NO = #{boxNo,jdbcType=VARCHAR},
+      COUNT = #{count,jdbcType=NUMERIC},
+      UNIT = #{unit,jdbcType=VARCHAR},
+      ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      OPERATOR_ID = #{operatorId,jdbcType=NUMERIC},
+      STATUS = #{status,jdbcType=VARCHAR},
+      AREA_CODE = #{areaCode,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=NUMERIC}
+  </update>
+</mapper>
